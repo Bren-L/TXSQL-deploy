@@ -45,14 +45,14 @@ curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/
 
 ```bash
 # 下载（自动重试 3 次）→ 校验成功 → 解压 → 删除安装包 → 进入目录
-curl -fsSL --retry 3 -o txsql.tar.gz \
+curl -fSL --retry 3 -# -o txsql.tar.gz \
   https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz \
   && tar xzf txsql.tar.gz \
   && rm -f txsql.tar.gz \
   && cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
 ```
 
-> `--retry 3` 自动重试应对网络波动；`&&` 保证下载失败不会解压残缺文件。
+> 各参数说明：`-#` 显示下载进度条、`--retry 3` 自动重试、`&&` 保证下载失败不会解压残缺文件。
 >
 > ⚠️ 国内访问 GitHub 可能不稳定，如遇 `TCP connection reset` 可设置代理后重试：
 > ```bash
@@ -78,7 +78,7 @@ sudo bash install.sh
 # === 可联网机器 ===
 
 # Step 1: 下载并解压
-curl -fsSL --retry 3 -o txsql.tar.gz \
+curl -fSL --retry 3 -# -o txsql.tar.gz \
   https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz \
   && tar xzf txsql.tar.gz \
   && rm -f txsql.tar.gz
