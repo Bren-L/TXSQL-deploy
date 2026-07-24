@@ -1,0 +1,18 @@
+# TXSQL Version — PENDING (2026-07-22)
+# Final version must be derived from actual TXSQL source commit.
+# These are placeholders based on typical TXSQL releases.
+TXSQL_VERSION=8.0.30
+TXSQL_RELEASE=1.0.0
+MYSQL_BASE_VERSION=8.0.30
+
+# CentOS 7.9 ISO Baseline (for reference):
+# GLIBC=2.17
+# GLIBCXX=4.8.5 (CXXABI_1.3.7)
+# RPM=4.11.3
+# SYSTEMD=219
+# KERNEL=3.10.0-1160
+
+# Build Toolchain (projected):
+# GCC=8.3.1 (devtoolset-8)
+# CMAKE=3.17.5 (cmake3 from EPEL)
+# BOOST=1.77.0 (verify against TXSQL source!)

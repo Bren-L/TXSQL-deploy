@@ -1,0 +1,87 @@
+# Layer 2: Direct RPM Requires
+# Platform: centos-7.9-x86_64
+# Status: PROJECTED (TXSQL RPMs not available for rpm -qpR)
+# Date: 2026-07-22
+#
+# These are the EXPECTED direct Requires that RPM auto-detection would
+# generate for txsql-{common,client,server} RPMs, based on known MySQL
+# 8.0 runtime linkage patterns.
+#
+# ACTUAL requires will be confirmed when TXSQL RPMs exist.
+
+# =============================================================================
+# txsql-server
+# =============================================================================
+# From mysqld binary:
+libc.so.6(GLIBC_2.17)(64bit)           # glibc
+libpthread.so.0(GLIBC_2.17)(64bit)     # glibc
+libdl.so.2(GLIBC_2.17)(64bit)          # glibc
+libm.so.6(GLIBC_2.17)(64bit)           # glibc
+librt.so.1(GLIBC_2.17)(64bit)          # glibc
+libresolv.so.2(GLIBC_2.17)(64bit)      # glibc
+libstdc++.so.6(CXXABI_1.3)(64bit)      # libstdc++ (from devtoolset-8)
+libgcc_s.so.1(GCC_4.0.0)(64bit)        # libgcc
+libaio.so.1()(64bit)                   # libaio
+libcrypt.so.1()(64bit)                 # glibc (or libxcrypt on newer)
+libssl.so.1.1()(64bit)                 # openssl-libs (or bundled)
+libcrypto.so.1.1()(64bit)              # openssl-libs (or bundled)
+libcurl.so.4()(64bit)                  # libcurl
+libncurses.so.5()(64bit)               # ncurses-libs
+libtinfo.so.5()(64bit)                  # ncurses-libs
+libsasl2.so.3()(64bit)                 # cyrus-sasl-lib
+libldap-2.4.so.2()(64bit)              # openldap
+liblber-2.4.so.2()(64bit)              # openldap
+libnuma.so.1()(64bit)                  # numactl-libs
+libz.so.1()(64bit)                     # zlib
+liblz4.so.1()(64bit)                   # lz4 (likely bundled by MySQL)
+libzstd.so.1()(64bit)                   # libzstd (likely bundled by MySQL)
+libtirpc.so.1()(64bit)                 # libtirpc
+
+# From plugin .so files:
+libssl.so.10()(64bit)                  # OPENSSL 1.0.x compatibility (if system)
+libcrypto.so.10()(64bit)               # OPENSSL 1.0.x compatibility
+
+# RPM-level deps (scriptlet):
+/bin/sh                                 # bash
+/sbin/ldconfig                          # glibc
+/bin/bash                               # bash
+
+# From systemd integration:
+systemd                                  # systemd
+systemd-units                            # systemd
+
+# =============================================================================
+# txsql-client
+# =============================================================================
+# From mysql, mysqladmin, mysqldump, mysqlbinlog, mysqlcheck, etc.:
+libc.so.6(GLIBC_2.17)(64bit)
+libpthread.so.0(GLIBC_2.17)(64bit)
+libdl.so.2(GLIBC_2.17)(64bit)
+libm.so.6(GLIBC_2.17)(64bit)
+libstdc++.so.6(CXXABI_1.3)(64bit)
+libgcc_s.so.1(GCC_4.0.0)(64bit)
+libssl.so.1.1()(64bit)
+libcrypto.so.1.1()(64bit)
+libncurses.so.5()(64bit)
+libtinfo.so.5()(64bit)
+libz.so.1()(64bit)
+libtirpc.so.1()(64bit)
+
+# =============================================================================
+# txsql-common
+# =============================================================================
+# Shared by both server and client:
+# - Character set files (.xml)
+# - Error message files (.sys)
+# - shared libraries (libmysqlclient.so, libmysqld.so)
+libc.so.6(GLIBC_2.17)(64bit)
+libpthread.so.0(GLIBC_2.17)(64bit)
+libstdc++.so.6(CXXABI_1.3)(64bit)
+libssl.so.1.1()(64bit)
+libcrypto.so.1.1()(64bit)
+/bin/sh
+
+# =============================================================================
+# NOTE: All libc/libpthread/libdl/libm/librt/libresolv are provided by glibc.
+# glibc is NEVER bundled. The target system MUST provide these.
+# =============================================================================

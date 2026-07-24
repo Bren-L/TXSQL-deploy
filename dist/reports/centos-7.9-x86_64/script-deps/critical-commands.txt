@@ -1,0 +1,35 @@
+CRITICAL-OK: awk  (RPM: unknown)
+CRITICAL-OK: sed  (RPM: unknown)
+CRITICAL-OK: grep  (RPM: unknown)
+CRITICAL-OK: find  (RPM: unknown)
+CRITICAL-OK: sha256sum  (RPM: unknown)
+CRITICAL-MISSING: systemctl
+CRITICAL-MISSING: useradd
+CRITICAL-MISSING: groupadd
+CRITICAL-MISSING: getent
+CRITICAL-MISSING: rpm
+CRITICAL-MISSING: yum
+CRITICAL-MISSING: dnf
+CRITICAL-OK: tar  (RPM: unknown)
+CRITICAL-OK: gzip  (RPM: unknown)
+CRITICAL-OK: readlink  (RPM: unknown)
+CRITICAL-OK: realpath  (RPM: unknown)
+CRITICAL-OK: install  (RPM: unknown)
+CRITICAL-OK: mkdir  (RPM: unknown)
+CRITICAL-OK: chmod  (RPM: unknown)
+CRITICAL-OK: chown  (RPM: unknown)
+CRITICAL-OK: cat  (RPM: unknown)
+CRITICAL-OK: head  (RPM: unknown)
+CRITICAL-OK: tail  (RPM: unknown)
+CRITICAL-OK: sort  (RPM: unknown)
+CRITICAL-OK: uniq  (RPM: unknown)
+CRITICAL-OK: wc  (RPM: unknown)
+CRITICAL-OK: id  (RPM: unknown)
+CRITICAL-OK: ps  (RPM: unknown)
+CRITICAL-MISSING: pgrep
+CRITICAL-ALT: ss -> netstat
+CRITICAL-OK: netstat  (RPM: unknown)
+CRITICAL-OK: tee  (RPM: unknown)
+CRITICAL-MISSING: flock
+CRITICAL-OK: basename  (RPM: unknown)
+CRITICAL-OK: dirname  (RPM: unknown)

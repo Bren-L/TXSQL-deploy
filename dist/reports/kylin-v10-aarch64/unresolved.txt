@@ -1,0 +1,32 @@
+# Unresolved Dependencies — kylin-v10-aarch64
+# Status: ALL UNRESOLVED — no aarch64 environment
+# Date: 2026-07-22
+# Reference: NONE (completely independent — different architecture)
+
+UNRESOLVED: No aarch64 hardware available
+UNRESOLVED: SP version unknown (SP1/SP2/SP3)
+UNRESOLVED: CPU model unknown (Kunpeng 920 vs Phytium FT-2000+)
+UNRESOLVED: glibc version unknown
+UNRESOLVED: Kylin package names unknown
+UNRESOLVED: Native build environment not set up
+UNRESOLVED: No TXSQL aarch64 build performed
+UNRESOLVED: Zero dependency data available
+
+CRITICAL: This is a COMPLETELY DIFFERENT ARCHITECTURE.
+  - All RPMs are aarch64 (not x86_64)
+  - All library paths may differ (/usr/lib64/ vs /usr/lib/)
+  - CPU-specific optimizations required
+  - Each SP is effectively a different platform
+  - No projection from x86_64 platforms is valid
+
+Resolution path:
+  1. Obtain Kylin V10 aarch64 hardware (Kunpeng 920 or Phytium FT-2000+)
+  2. Determine exact SP version
+  3. Run collect-fingerprints.sh
+  4. Set up native aarch64 build environment
+  5. Build TXSQL natively on aarch64
+  6. Run ALL 6 dependency resolution layers independently
+  7. Generate independent aarch64 local repository
+  8. Each additional SP: repeat steps 2-7
+  9. If multiple SPs are compatible → document and merge
+  10. If NOT compatible → keep as separate platforms

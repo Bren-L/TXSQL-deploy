@@ -1,0 +1,23 @@
+# Release tarballs — uploaded as GitHub Release assets (each >100 MB)
+dist/*.tar.gz
+dist/*.sha256
+dist/*.CANDIDATE*.tar.gz
+
+# RPM binaries — packaged inside release tarballs
+dist/platforms/*/repository/*.rpm
+
+# Build artifacts
+artifacts/build-logs/
+artifacts/framework-preview/
+artifacts/acceptance/
+artifacts/elf-reports/
+artifacts/rpm-reports/
+artifacts/build-environment/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db

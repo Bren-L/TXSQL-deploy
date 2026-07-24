@@ -1,0 +1,23 @@
+# TXSQL Source Reference — STATUS: NOT FOUND (2026-07-22)
+#
+# TXSQL source code was NOT located on this workstation.
+# Search conducted:
+#   - C:\Users\20976\Desktop\ — no TXSQL directories/tarballs
+#   - C:\Users\20976\.qclaw\workspaces\ — no TXSQL content
+#   - All drives via find — no CMakeLists.txt matching *txsql* or *mysql*
+#   - SSH host "abc" (192.168.44.133) — connection timed out
+#   - 13 VMware VMs enumerated, 3 started — no SSH credentials available
+#
+# Required fields once source is located:
+# TXSQL_REPO_URL=<git remote or tarball URL>
+# TXSQL_BRANCH=<git branch>
+# TXSQL_COMMIT=<full SHA>
+# TXSQL_COMMIT_DATE=<ISO 8601>
+# MYSQL_BASE_VERSION=<e.g. 8.0.30>
+# TXSQL_VERSION=<e.g. 8.0.30-20241015>
+#
+# For comparison, CentOS 7.9 baseline (from ISO):
+#   glibc 2.17-317.el7 (build floor)
+#   GCC 4.8.5-44.el7 (TOO OLD → needs devtoolset-8)
+#   CMake 2.8.12.2-2.el7 (TOO OLD → needs cmake3 from EPEL)
+#   OpenSSL 1.0.2k-19.el7 (EOL → TXSQL may bundle 1.1.1)
