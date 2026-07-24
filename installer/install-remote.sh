@@ -48,11 +48,7 @@ mkdir -p "${WORK_DIR}"
 cd "${WORK_DIR}"
 
 log_info "下载地址: ${DOWNLOAD_URL}"
-curl -fsSL -o "${TARBALL}" "${DOWNLOAD_URL}"
-log_info "下载完成 ($(du -h "${TARBALL}" | cut -f1))"
-
-log_info "解压中..."
-tar xzf "${TARBALL}"
+curl -fsSL "${DOWNLOAD_URL}" | tar xz
 
 EXTRACT_DIR=$(ls -d txsql-offline-*/ 2>/dev/null | head -1)
 if [ -z "${EXTRACT_DIR}" ]; then

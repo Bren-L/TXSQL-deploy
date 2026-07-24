@@ -148,8 +148,7 @@ curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/
 **Step 1 — 下载并解压：**
 
 ```bash
-wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
+wget -qO- https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz | tar xz
 cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
 ```
 
@@ -166,9 +165,8 @@ sudo bash install.sh
 在可联网的机器上执行 Step 1，然后通过 U 盘 / SCP 把解压后的目录传到目标机器，再执行 Step 2。
 
 ```bash
-# 可联网机器：下载解压
-wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
+# 可联网机器：下载并解压
+wget -qO- https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz | tar xz
 
 # 传输到目标机器
 scp -r txsql-offline-*/ root@<目标机器IP>:/tmp/
@@ -178,13 +176,34 @@ cd /tmp/txsql-offline-*/
 sudo bash install.sh
 ```
 
-### 安装后
+### 验证部署
 
 ```bash
-sudo cat /root/.txsql_credentials          # 查看 root 密码
-mysql -u root -p -S /var/lib/txsql/mysql.sock  # 连接数据库
-sudo systemctl status txsql                # 查看服务状态
+# 1. 服务正在运行
+sudo systemctl status txsql | head -3
+
+# 2. 端口已监听
+sudo ss -tlnp | grep 3306
+
+# 3. 查看版本
+mysql -u root -p -S /var/lib/txsql/mysql.sock -e "SELECT VERSION();"
+# → 8.0.30-txsql
+
+# 4. 读写测试
+mysql -u root -p -S /var/lib/txsql/mysql.sock -e "
+  CREATE DATABASE IF NOT EXISTS test_txsql;
+  USE test_txsql;
+  CREATE TABLE t (id INT, msg VARCHAR(50));
+  INSERT INTO t VALUES (1, 'hello txsql');
+  SELECT * FROM t;
+  DROP DATABASE test_txsql;
+"
+
+# 5. 密码位置
+sudo cat /root/.txsql_credentials
 ```
+
+> 6 项全通过即为部署成功：服务 running ✅、端口 3306 ✅、版本 8.0.30-txsql ✅、读写正常 ✅、密码可查 ✅。
 
 ### 卸载
 

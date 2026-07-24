@@ -33,8 +33,7 @@ curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/
 从 [GitHub Release](https://github.com/Bren-L/TXSQL-deploy/releases) 下载离线包并解压：
 
 ```bash
-wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
+wget -qO- https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz | tar xz
 cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
 ```
 
@@ -56,8 +55,7 @@ sudo bash install.sh
 # === 可联网机器 ===
 
 # Step 1: 下载并解压
-wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
+wget -qO- https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz | tar xz
 
 # 传输解压后的目录到目标机器
 scp -r txsql-offline-*/ root@<目标机器IP>:/tmp/
@@ -74,19 +72,44 @@ sudo bash install.sh
 
 ## 验证安装
 
+部署完成后，依次检查以下 5 项即可确认成功：
+
 ```bash
-# 查看服务状态
-sudo systemctl status txsql
+# 1. 服务正在运行
+sudo systemctl status txsql | head -3
 
-# 获取 root 密码
-sudo cat /root/.txsql_credentials
+# 2. 端口已监听
+sudo ss -tlnp | grep 3306
 
-# 连接数据库
-mysql -u root -p -S /var/lib/txsql/mysql.sock
+# 3. 查看 TXSQL 版本
+sudo cat /root/.txsql_credentials   # 先取密码
+mysql -u root -p -S /var/lib/txsql/mysql.sock -e "SELECT VERSION();"
+# → 8.0.30-txsql
 
-mysql> SELECT VERSION();
--- 8.0.30-txsql
+# 4. 读写测试
+mysql -u root -p -S /var/lib/txsql/mysql.sock -e "
+  CREATE DATABASE IF NOT EXISTS test_txsql;
+  USE test_txsql;
+  CREATE TABLE t (id INT, msg VARCHAR(50));
+  INSERT INTO t VALUES (1, 'hello txsql');
+  SELECT * FROM t;
+  DROP DATABASE test_txsql;
+"
+
+# 5. systemd 自启动已启用
+sudo systemctl is-enabled txsql
+# → enabled
 ```
+
+| # | 检查项 | 通过标志 |
+|---|--------|----------|
+| 1 | 服务状态 | `active (running)` |
+| 2 | 端口监听 | `LISTEN 3306` |
+| 3 | 版本号 | `8.0.30-txsql` |
+| 4 | 读写 | INSERT + SELECT 正常 |
+| 5 | 自启动 | `enabled` |
+
+全部通过即部署成功 ✅
 
 ---
 
