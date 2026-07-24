@@ -130,11 +130,13 @@ TXSQL-Packages/
 
 > 适用于 CentOS 7.9 x86_64 | 最新版本: [v8.0.30-1.0.0](https://github.com/Bren-L/TXSQL-deploy/releases)
 
-部署分为两步：
+### 前置依赖
 
-```
-Step 1: 下载并解压（从 GitHub Release 获取离线包）
-Step 2: 安装部署（一条命令，完全离线、无人值守）
+CentOS 7 minimal 已内置 `curl`、`tar`、`sudo`，**无需安装任何额外依赖**。
+
+```bash
+# 确认依赖就绪（三个命令都应该存在）
+which curl tar sudo
 ```
 
 ### 方式一：一键自动部署
@@ -148,9 +150,17 @@ curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/
 **Step 1 — 下载并解压：**
 
 ```bash
-wget -qO- https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz | tar xz
-cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
+# 下载（自动重试 3 次）→ 校验成功 → 解压 → 删除安装包
+curl -fsSL --retry 3 -o txsql.tar.gz \
+  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz \
+  && tar xzf txsql.tar.gz \
+  && rm -f txsql.tar.gz \
+  && cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
 ```
+
+> `--retry 3` 自动重试应对网络波动；`&&` 保证下载失败不会解压残缺文件。
+>
+> ⚠️ 如果国内访问 GitHub 不稳定，可设置代理：`export https_proxy=http://<代理IP>:<端口>` 后重试，或使用[方式三](#方式三离线环境目标机器无网络)离线传输。
 
 **Step 2 — 安装部署：**
 
@@ -165,13 +175,21 @@ sudo bash install.sh
 在可联网的机器上执行 Step 1，然后通过 U 盘 / SCP 把解压后的目录传到目标机器，再执行 Step 2。
 
 ```bash
-# 可联网机器：下载并解压
-wget -qO- https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz | tar xz
+# === 可联网机器 ===
 
-# 传输到目标机器
+# Step 1: 下载并解压
+curl -fsSL --retry 3 -o txsql.tar.gz \
+  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz \
+  && tar xzf txsql.tar.gz \
+  && rm -f txsql.tar.gz
+
+# 传输解压后的目录到目标机器
 scp -r txsql-offline-*/ root@<目标机器IP>:/tmp/
 
-# 目标机器：安装
+
+# === 目标机器（离线） ===
+
+# Step 2: 安装部署（离线机器上 tar 和 bash 通常已内置）
 cd /tmp/txsql-offline-*/
 sudo bash install.sh
 ```
