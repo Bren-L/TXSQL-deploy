@@ -126,66 +126,71 @@ TXSQL-Packages/
 
 ---
 
-## 🚀 快速开始（联网下载）
+## 🚀 快速开始
 
-> 适用于 CentOS 7.9 x86_64，一条命令完成下载安装。
+> 适用于 CentOS 7.9 x86_64 | 最新版本: [v8.0.30-1.0.0](https://github.com/Bren-L/TXSQL-deploy/releases)
 
-### 方式一：curl 一键安装（推荐）
+部署分为两步：
+
+```
+Step 1: 下载并解压（从 GitHub Release 获取离线包）
+Step 2: 安装部署（一条命令，完全离线、无人值守）
+```
+
+### 方式一：一键自动部署
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/install-remote.sh | sudo bash
 ```
 
-### 方式二：手动下载安装
+### 方式二：手动两步部署
+
+**Step 1 — 下载并解压：**
 
 ```bash
-# 1. 从 GitHub Release 下载
 wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-
-# 2. 验证 SHA-256
-echo "dbc2d23c6fedfc947f866144ff760ae4e8a646fcfece765ba88f947d7791cb4e  txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz" | sha256sum -c
-
-# 3. 解压安装
 tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
 cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
+```
+
+**Step 2 — 安装部署：**
+
+```bash
 sudo bash install.sh
 ```
 
-> 📦 **最新版本及更多平台**：前往 [GitHub Releases](https://github.com/Bren-L/TXSQL-deploy/releases) 查看所有可用版本。
+> 📦 更多版本请前往 [GitHub Releases](https://github.com/Bren-L/TXSQL-deploy/releases)。
 
-### 管理服务
+### 离线环境（目标机器无网络）
+
+在可联网的机器上执行 Step 1，然后通过 U 盘 / SCP 把解压后的目录传到目标机器，再执行 Step 2。
 
 ```bash
-# 首次安装后查看临时密码
-sudo cat /root/.txsql_credentials
+# 可联网机器：下载解压
+wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
+tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
 
-# 连接数据库
-mysql -u root -p -S /var/lib/txsql/mysql.sock
+# 传输到目标机器
+scp -r txsql-offline-*/ root@<目标机器IP>:/tmp/
 
-# 服务管理
-sudo systemctl status txsql      # 查看状态
-sudo systemctl stop txsql        # 停止
-sudo systemctl restart txsql     # 重启
+# 目标机器：安装
+cd /tmp/txsql-offline-*/
+sudo bash install.sh
+```
+
+### 安装后
+
+```bash
+sudo cat /root/.txsql_credentials          # 查看 root 密码
+mysql -u root -p -S /var/lib/txsql/mysql.sock  # 连接数据库
+sudo systemctl status txsql                # 查看服务状态
 ```
 
 ### 卸载
 
 ```bash
-# 进入之前的解压目录，或重新下载解压
-sudo bash uninstall.sh           # 保留数据、日志、配置、凭据
+sudo bash uninstall.sh           # 保留数据、日志、配置
 sudo bash uninstall.sh --purge   # 完全清除（含数据）
-```
-
-### 离线安装（无网络环境）
-
-如果目标机器**没有网络**，请在一台可联网的机器上下载离线包，然后通过 U 盘/SCP 传输到目标机器，再按上面的「手动下载安装」步骤执行。
-
-```bash
-# 可联网机器（下载离线包）
-wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-
-# 传输到目标机器
-scp txsql-offline-*.tar.gz root@<目标机器IP>:/tmp/
 ```
 
 ---

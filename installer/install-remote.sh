@@ -1,141 +1,95 @@
 #!/bin/bash
 # =============================================================================
-# install-remote.sh — TXSQL Remote Installer
+# install-remote.sh — TXSQL 远程一键部署
 # =============================================================================
-# Downloads the TXSQL offline bundle from GitHub Releases and runs the
-# offline installer.  Designed for the "curl | bash" one-liner pattern.
+# 两步完成 TXSQL 部署：
+#   Step 1: 从 GitHub Release 下载离线包并解压
+#   Step 2: 执行离线安装脚本
 #
-# Usage (as root):
+# 用法:
 #   curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/install-remote.sh | sudo bash
 #
-# Or manually:
-#   sudo bash install-remote.sh
-#
-# Supports: CentOS 7.9 x86_64 (more platforms coming)
+# 支持平台: CentOS 7.9 x86_64
+# GitHub: https://github.com/Bren-L/TXSQL-deploy
 # =============================================================================
 
 set -euo pipefail
 
-# ── Configuration ──────────────────────────────────────────────────────────────
+# ── 配置 ────────────────────────────────────────────────────────────────────────
 
 GITHUB_REPO="Bren-L/TXSQL-deploy"
 RELEASE_TAG="v8.0.30-1.0.0"
 TARBALL="txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz"
 DOWNLOAD_URL="https://github.com/${GITHUB_REPO}/releases/download/${RELEASE_TAG}/${TARBALL}"
-WORK_DIR="/tmp/txsql-install-$$"
 
-# ── Colors ─────────────────────────────────────────────────────────────────────
+# ── 颜色 ────────────────────────────────────────────────────────────────────────
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m' # No Color
-
+RED='\033[0;31m'; GREEN='\033[0;32m'; CYAN='\033[0;36m'; NC='\033[0m'
 log_info()  { echo -e "${GREEN}[INFO]${NC}  $*"; }
-log_warn()  { echo -e "${YELLOW}[WARN]${NC}  $*"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $*"; }
-log_step()  { echo -e "${CYAN}[STEP]${NC} $*"; }
+log_step()  { echo -e "\n${CYAN}========================================${NC}"; echo -e "${CYAN}  $*${NC}"; echo -e "${CYAN}========================================${NC}\n"; }
 
-# ── Pre-flight checks ─────────────────────────────────────────────────────────
+# ── 前置检查 ────────────────────────────────────────────────────────────────────
 
 if [ "$(id -u)" -ne 0 ]; then
-    log_error "This script must be run as root."
-    echo "Usage: curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/install-remote.sh | sudo bash"
+    log_error "请以 root 运行。"
+    echo "用法: curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/install-remote.sh | sudo bash"
     exit 1
 fi
 
-# ── Platform detection ─────────────────────────────────────────────────────────
+# =============================================================================
+# Step 1: 下载并解压（从 GitHub Release）
+# =============================================================================
 
-log_step "Detecting platform..."
+log_step "Step 1/2: 下载并解压离线安装包"
 
-if [ ! -f /etc/centos-release ]; then
-    log_error "This installer currently only supports CentOS 7.9 x86_64."
-    log_error "Detected OS: $(cat /etc/os-release 2>/dev/null | grep PRETTY_NAME | cut -d= -f2 || echo 'unknown')"
-    echo ""
-    echo "For other platforms, see: https://github.com/Bren-L/TXSQL-deploy"
-    exit 1
-fi
-
-CENTOS_VERSION=$(rpm -q --qf '%{VERSION}' centos-release 2>/dev/null || echo "0")
-ARCH=$(uname -m)
-
-log_info "CentOS ${CENTOS_VERSION}, ${ARCH}"
-
-if [ "${CENTOS_VERSION}" != "7" ]; then
-    log_warn "This installer is tested on CentOS 7.9. Your version: ${CENTOS_VERSION}"
-    echo "Proceeding anyway, but YMMV."
-fi
-
-if [ "${ARCH}" != "x86_64" ]; then
-    log_error "This installer requires x86_64. Detected: ${ARCH}"
-    exit 1
-fi
-
-# ── Download ───────────────────────────────────────────────────────────────────
-
-log_step "Downloading TXSQL offline bundle..."
-log_info "Source: ${DOWNLOAD_URL}"
-
+WORK_DIR="/tmp/txsql-install-$$"
 mkdir -p "${WORK_DIR}"
 cd "${WORK_DIR}"
 
-if ! curl -fsSL -o "${TARBALL}" "${DOWNLOAD_URL}"; then
-    log_error "Download failed."
-    log_error "Please check your network and try again, or download manually from:"
-    log_error "  https://github.com/${GITHUB_REPO}/releases"
-    rm -rf "${WORK_DIR}"
-    exit 1
-fi
+log_info "下载地址: ${DOWNLOAD_URL}"
+curl -fsSL -o "${TARBALL}" "${DOWNLOAD_URL}"
+log_info "下载完成 ($(du -h "${TARBALL}" | cut -f1))"
 
-log_info "Download complete ($(du -h "${TARBALL}" | cut -f1))."
-
-# ── Extract ────────────────────────────────────────────────────────────────────
-
-log_step "Extracting..."
+log_info "解压中..."
 tar xzf "${TARBALL}"
-EXTRACT_DIR=$(ls -d txsql-offline-*/ 2>/dev/null | head -1)
 
+EXTRACT_DIR=$(ls -d txsql-offline-*/ 2>/dev/null | head -1)
 if [ -z "${EXTRACT_DIR}" ]; then
-    log_error "Failed to find extracted directory."
+    log_error "解压失败，未找到安装目录。"
+    log_error "请前往 https://github.com/${GITHUB_REPO}/releases 手动下载。"
     rm -rf "${WORK_DIR}"
     exit 1
 fi
 
 cd "${EXTRACT_DIR}"
+log_info "解压完成: $(pwd)"
 
-# ── Install ────────────────────────────────────────────────────────────────────
+# =============================================================================
+# Step 2: 安装部署
+# =============================================================================
 
-log_step "Running offline installer..."
-log_info "================================================"
+log_step "Step 2/2: 安装部署 TXSQL"
 
-if [ -f install.sh ]; then
-    bash install.sh
-    INSTALL_RC=$?
-else
-    log_error "install.sh not found in the extracted bundle."
-    log_error "The release package may be corrupted. Please open an issue at:"
-    log_error "  https://github.com/Bren-L/TXSQL-deploy/issues"
-    rm -rf "${WORK_DIR}"
-    exit 1
-fi
+bash install.sh
+INSTALL_RC=$?
 
-# ── Cleanup ────────────────────────────────────────────────────────────────────
+# ── 清理临时文件 ────────────────────────────────────────────────────────────────
 
 rm -rf "${WORK_DIR}"
 
 if [ "${INSTALL_RC}" -eq 0 ]; then
     log_info "================================================"
-    log_info "TXSQL installation complete!"
+    log_info "  TXSQL 部署成功!"
+    log_info "================================================"
     echo ""
-    log_info "Next steps:"
-    echo "  1. Get the temporary password:  sudo cat /root/.txsql_credentials"
-    echo "  2. Connect to MySQL:             mysql -u root -p -S /var/lib/txsql/mysql.sock"
-    echo "  3. Check service status:         sudo systemctl status txsql"
+    echo "  查看 root 密码:  sudo cat /root/.txsql_credentials"
+    echo "  连接数据库:      mysql -u root -p -S /var/lib/txsql/mysql.sock"
+    echo "  服务管理:        sudo systemctl status txsql"
     echo ""
-    log_info "Docs: https://github.com/Bren-L/TXSQL-deploy"
+    echo "  GitHub: https://github.com/${GITHUB_REPO}"
 else
-    log_error "Installation failed with exit code ${INSTALL_RC}."
-    log_error "For help, see: https://github.com/Bren-L/TXSQL-deploy"
+    log_error "安装失败 (exit code: ${INSTALL_RC})"
+    log_error "帮助: https://github.com/${GITHUB_REPO}"
     exit "${INSTALL_RC}"
 fi

@@ -5,7 +5,16 @@
 
 ---
 
-## 方式一：curl 一键安装（推荐，需联网）
+## 部署流程
+
+```
+Step 1: 下载并解压（从 GitHub Release 获取离线包）
+Step 2: 安装部署（一条命令，完全离线、无人值守）
+```
+
+---
+
+## 方式一：一键自动部署
 
 在目标 CentOS 7.9 机器上以 root 执行：
 
@@ -13,52 +22,50 @@
 curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/install-remote.sh | sudo bash
 ```
 
-脚本会自动完成：平台检测 → 下载离线包 → 解压 → RPM 安装 → 初始化数据库 → 启动服务。
-
-> ⚠️ 如果你不信任 `curl | bash` 模式，请使用下方的方式二或方式三。
+脚本自动完成 Step 1 + Step 2，无需手动操作。
 
 ---
 
-## 方式二：手动下载安装（需联网）
+## 方式二：手动两步部署（推荐，清晰可控）
+
+### Step 1 — 下载并解压
+
+从 [GitHub Release](https://github.com/Bren-L/TXSQL-deploy/releases) 下载离线包并解压：
 
 ```bash
-# 1. 从 GitHub Release 下载（替换 URL 为最新版本）
 wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-
-# 2. 验证文件完整性（可选但推荐）
-sha256sum txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-# 预期: dbc2d23c6fedfc947f866144ff760ae4e8a646fcfece765ba88f947d7791cb4e
-
-# 3. 解压
 tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
 cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
+```
 
-# 4. 安装（完全离线、零交互）
+### Step 2 — 安装部署
+
+```bash
 sudo bash install.sh
 ```
 
+安装过程完全离线、零交互。完成后 TXSQL 已通过 systemd 启动运行。
+
 ---
 
-## 方式三：离线安装（目标机器无网络）
+## 方式三：离线环境（目标机器无网络）
 
-### 步骤 1：在可联网机器上下载
+在可联网机器上做 Step 1，然后把解压后的目录传到目标机器，再执行 Step 2。
 
 ```bash
-# 从 GitHub Release 下载离线包
+# === 可联网机器 ===
+
+# Step 1: 下载并解压
 wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
-```
+tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
 
-### 步骤 2：传输到目标机器
+# 传输解压后的目录到目标机器
+scp -r txsql-offline-*/ root@<目标机器IP>:/tmp/
 
-```bash
-# 通过 U 盘、SCP 等方式传输
-scp txsql-offline-*.tar.gz root@<目标机器IP>:/tmp/
-```
 
-### 步骤 3：在目标机器上安装
+# === 目标机器（离线） ===
 
-```bash
-tar xzf /tmp/txsql-offline-*.tar.gz -C /tmp/
+# Step 2: 安装部署
 cd /tmp/txsql-offline-*/
 sudo bash install.sh
 ```
@@ -77,7 +84,6 @@ sudo cat /root/.txsql_credentials
 # 连接数据库
 mysql -u root -p -S /var/lib/txsql/mysql.sock
 
-# 查看版本
 mysql> SELECT VERSION();
 -- 8.0.30-txsql
 ```
@@ -116,11 +122,8 @@ sudo bash install.sh \
 ## 卸载
 
 ```bash
-# 保留数据、日志、配置（默认）
-sudo bash uninstall.sh
-
-# 完全清除（含数据）
-sudo bash uninstall.sh --purge
+sudo bash uninstall.sh           # 保留数据、日志、配置（默认）
+sudo bash uninstall.sh --purge   # 完全清除（含数据）
 ```
 
 卸载后重新安装会自动检测已有数据，不会重复初始化。
