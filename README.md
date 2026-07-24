@@ -1,4 +1,4 @@
-# TXSQL Offline Deployment — 一键离线部署项目
+# TXSQL Offline Deployment — TXSQL 8.0.30 离线一键部署
 
 > **腾讯 TXSQL (Tencent MySQL) 多操作系统离线无人值守部署工程**
 
@@ -8,29 +8,42 @@
 
 | 阶段 | 状态 | 说明 |
 |------|------|------|
-| 阶段 1: 源码审计 | ✅ 完成 | TXSQL源码分析 + OpenTenBase参考项目分析 |
-| 阶段 2: 平台指纹 | ⚠️ 阻塞 | 缺少目标操作系统环境 |
-| 阶段 3-13 | ⏳ 未开始 | 等待前置条件满足 |
-
-**当前可交付物**: 项目骨架、架构设计、决策记录、参考分析、平台指纹采集协议。
-
-**阻塞项**:
-- TXSQL 源码路径 (`<TXSQL_SOURCE_PATH>`) 未解析为实际路径
-- 无可用目标操作系统镜像或测试机
+| 阶段 1: 源码审计 | ✅ 完成 | TXSQL 8.0.30 源码分析，117,155 文件，boost 1.77.0 bundled |
+| 阶段 2: 平台指纹 | ✅ 完成 | CentOS 7.9 构建机指纹采集 |
+| 阶段 3: 编译构建 | ✅ 完成 | GCC 10.2.1，耗时 63 分钟，278MB mysqld |
+| 阶段 4: RPM 打包 | ✅ 完成 | 4 个 RPM (txsql, txsql-common, txsql-client, txsql-server) |
+| 阶段 5: 离线部署包 | ✅ 完成 | 完全离线安装脚本 + 依赖闭包 |
+| 阶段 6: 验收测试 | ✅ 完成 | 26 项测试全部通过（含 REBOOT 持久化） |
+| 阶段 7: 正式发布 | ✅ 完成 | v8.0.30-1.0.0 已发布至 GitHub |
 
 ---
 
 ## 目标支持矩阵
 
-| 平台 | 架构 | 状态 |
-|------|------|------|
-| CentOS 7.8 | x86_64 | UNVERIFIED |
-| CentOS 7.9 | x86_64 | UNVERIFIED |
-| TencentOS Server 2.4 | x86_64 | UNVERIFIED |
-| TencentOS Server 3.1 | x86_64 | UNVERIFIED |
-| 银河麒麟 V10 (SP TBD) | aarch64 | UNVERIFIED |
+| 平台 | 架构 | 状态 | RPM 版本 |
+|------|------|------|----------|
+| CentOS 7.9 | x86_64 | ✅ **RELEASE** | 8.0.30-4.el7 |
+| CentOS 7.8 | x86_64 | ⏳ 待开发 | — |
+| TencentOS Server 2.4 | x86_64 | ⏳ 待开发 | — |
+| TencentOS Server 3.1 | x86_64 | ⏳ 待开发 | — |
+| 银河麒麟 V10 (SP TBD) | aarch64 | ⏳ 待开发 | — |
 
 详见 [docs/PLATFORM_MATRIX.md](docs/PLATFORM_MATRIX.md)
+
+---
+
+## 版本信息
+
+| 项目 | 值 |
+|------|-----|
+| TXSQL 版本 | 8.0.30-txsql |
+| MySQL 上游 | 8.0.30 |
+| 编译器 | GCC 10.2.1 (devtoolset-10) |
+| glibc | 2.17 |
+| OpenSSL | 3.4.1 (bundled) |
+| Boost | 1.77.0 (bundled) |
+| 构建类型 | RelWithDebInfo |
+| 发布包版本 | 8.0.30-1.0.0 |
 
 ---
 
@@ -43,25 +56,28 @@ TXSQL-Packages/
 ├── Makefile                    # 构建入口
 ├── VERSION                     # 版本定义
 ├── SOURCE_COMMIT               # TXSQL 源码引用
-├── .gitignore
 │
 ├── platforms/                  # 各平台独立目录
-│   ├── centos-7.8-x86_64/
-│   ├── centos-7.9-x86_64/
-│   ├── tencentos-2.4-x86_64/
-│   ├── tencentos-3.1-x86_64/
-│   └── kylin-v10-aarch64/
+│   ├── centos-7.9-x86_64/      # ✅ RELEASE
+│   ├── centos-7.8-x86_64/      # ⏳ 待开发
+│   ├── tencentos-2.4-x86_64/   # ⏳ 待开发
+│   ├── tencentos-3.1-x86_64/   # ⏳ 待开发
+│   └── kylin-v10-aarch64/      # ⏳ 待开发
 │
 ├── build/                      # 构建脚本（平台无关）
+│   ├── build-platform-bundle.sh
+│   ├── collect-dependencies.sh
+│   ├── create-local-repo.sh
+│   └── inspect-elf.sh
+│
 ├── packaging/rpm/              # RPM SPEC 文件
 ├── installer/                  # 安装器
 │   ├── install.sh              # 主安装入口
-│   ├── uninstall.sh            # 卸载
-│   ├── upgrade.sh              # 升级
 │   └── lib/                    # 安装器模块
-├── config/                     # 配置模板
-├── systemd/                    # systemd 单元
+├── config/                     # MySQL 配置模板
+├── systemd/                    # txsql.service
 ├── tests/                      # 测试套件
+├── dist/                       # 离线包 + repodata + 依赖分析报告
 └── docs/                       # 文档
 ```
 
@@ -70,11 +86,12 @@ TXSQL-Packages/
 ## 核心原则
 
 1. **完全离线** — 安装过程不访问互联网
-2. **完全无人值守** — `sudo ./install.sh </dev/null` 零交互
+2. **完全无人值守** — `sudo bash install.sh </dev/null` 零交互
 3. **每平台独立** — 独立构建、独立依赖闭包、独立验收
-4. **系统原生 RPM** — 使用 yum/dnf，本地仓库
+4. **系统原生 RPM** — 使用 yum/dnf，本地仓库，不依赖外部源
 5. **安全优先** — 不删数据、不强制覆盖、冲突即退出
 6. **测试门禁** — 未经原生系统验收的平台不声明支持
+7. **幂等安装** — 重复安装检测已有数据，不重复初始化
 
 ---
 
@@ -96,35 +113,68 @@ TXSQL-Packages/
 | 参数 | 默认值 |
 |------|--------|
 | 端口 | 3306 |
-| 系统用户 | txsql |
-| 基路径 | /usr/lib/txsql/current |
+| 系统用户 | txsql:txsql |
+| 基路径 | /usr/lib/txsql/current → 8.0.30 |
 | 数据目录 | /var/lib/txsql/data |
 | 日志目录 | /var/log/txsql |
 | 运行目录 | /run/txsql |
-| Socket | /run/txsql/mysql.sock |
-| 配置文件 | /etc/txsql/my.cnf |
+| 私有库目录 | /usr/lib/txsql/current/lib/private |
+| Socket | /var/lib/txsql/mysql.sock |
+| 配置文件 | /etc/txsql/my.cnf (%config(noreplace)) |
 | 配置目录 | /etc/txsql/conf.d |
 | 凭据文件 | /root/.txsql_credentials |
 
 ---
 
-## 快速开始（当环境就绪后）
+## 快速开始
+
+### 下载安装（CentOS 7.9 x86_64）
 
 ```bash
-# 1. 采集目标平台指纹
-sudo bash collect-fingerprints.sh
+# 1. 从 GitHub Release 下载
+wget https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
 
-# 2. 审计 TXSQL 源码
-make inspect-source TXSQL_SOURCE=/path/to/txsql
+# 2. 验证 SHA-256
+echo "dbc2d23c6fedfc947f866144ff760ae4e8a646fcfece765ba88f947d7791cb4e  txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz" | sha256sum -c
 
-# 3. 构建特定平台
-make build PLATFORM=centos-7.8-x86_64
+# 3. 解压安装
+tar xzf txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz
+cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
+sudo bash install.sh
+```
 
-# 4. 生成离线包
-make bundle PLATFORM=centos-7.8-x86_64
+### 管理服务
 
-# 5. 在目标系统安装
-sudo ./install.sh </dev/null
+```bash
+sudo systemctl start txsql       # 启动
+sudo systemctl stop txsql        # 停止
+sudo systemctl restart txsql     # 重启
+sudo systemctl status txsql      # 状态
+
+# 首次安装后查看临时密码
+sudo cat /root/.txsql_credentials
+```
+
+### 卸载
+
+```bash
+sudo bash uninstall.sh           # 保留数据、日志、配置、凭据
+sudo bash uninstall.sh --purge   # 完全清除（含数据）
+```
+
+---
+
+## 构建（开发用）
+
+```bash
+# 构建特定平台（在对应构建机上）
+make build PLATFORM=centos-7.9-x86_64
+
+# 生成离线包
+make bundle PLATFORM=centos-7.9-x86_64
+
+# 构建所有已支持平台
+make build-all
 ```
 
 ---
@@ -145,6 +195,15 @@ sudo ./install.sh </dev/null
 | [UNINSTALL.md](docs/UNINSTALL.md) | 卸载指南 |
 | [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | 故障排除 |
 | [TEST_REPORT.md](docs/TEST_REPORT.md) | 测试报告 |
+| [test-reports/centos-7.9-x86_64-RELEASE-FINAL.md](docs/test-reports/centos-7.9-x86_64-RELEASE-FINAL.md) | 正式版验收报告 (26/26 通过) |
+
+---
+
+## 发布
+
+| 版本 | 日期 | 说明 |
+|------|------|------|
+| [v8.0.30-1.0.0](https://github.com/Bren-L/TXSQL-deploy/releases/tag/v8.0.30-1.0.0) | 2026-07-23 | 首个正式发布，CentOS 7.9 x86_64 支持 |
 
 ---
 
