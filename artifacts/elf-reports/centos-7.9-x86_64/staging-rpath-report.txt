@@ -1,0 +1,546 @@
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/private/libcrypto.so.3
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/private/libssl.so.3
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_connection_pool.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlharness.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlharness_stdx.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlharness_tls.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_http.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_http_auth_backend.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_http_auth_realm.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_io_component.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_metadata_cache.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_mysqlxmessages.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/private/libmysqlrouter_routing.so.1
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/connection_pool.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/http_auth_backend.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/http_auth_realm.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/http_server.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/io.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/keepalive.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/metadata_cache.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/router_openssl.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/router_protobuf.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/rest_api.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/rest_connection_pool.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/rest_metadata_cache.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/rest_router.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/rest_routing.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/mysqlrouter/routing.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/libmysqlclient.so.21.2.30
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/ha_example.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/ha_mock.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/adt_null.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/test_security_context.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/auth.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/auth_test_plugin.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/qa_auth_interface.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/qa_auth_server.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/qa_auth_client.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/mysql_no_login.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/auth_socket.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/repl_speedlimit_master.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/repl_speedlimit_slave.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/cdb_enterprise_encryption.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/mysql_clone.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/connection_control.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libdaemon_example.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/ddl_rewriter.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/firewall_cdb.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/mypluglib.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/group_replication.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/keyring_file.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/keyring_udf.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/validate_password.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/pfs_example_plugin_employee.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/replication_observers_example_plugin.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/rewrite_example.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/rewriter.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/semisync_source.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/semisync_replica.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/semisync_master.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/semisync_slave.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/conflicting_variables.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_session_in_thd.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_x_sessions_init.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_x_sessions_deinit.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_session_detach.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_session_info.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_session_attach.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_complex.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_all_col_types.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_2_sessions.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_cmds_1.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_processlist.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_shutdown.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_sleep_is_connected.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_stored_procedures_functions.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_views_triggers.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_commit.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_lock.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_sqlmode.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_replication.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_errors.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_stmt.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_sql_reset_connection.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_framework.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_services.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/libtest_services_threaded.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/test_services_plugin_registry.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/test_services_host_application_signal.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/test_udf_services.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/version_token.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_mysqlx_global_reset.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_audit_api_message_emit.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_example_component1.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_example_component2.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_example_component3.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_string_service.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_string_service_long.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_string_service_charset.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_backup_lock_service.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_keyring_file.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_log_sink_syseventlog.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_log_sink_json.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_log_filter_dragnet.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_log_sink_test.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_mysqlbackup.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_pfs_example_component_population.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_pfs_example.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_query_attributes.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_reference_cache.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_udf_registration.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_reg_3_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_reg_only_3_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_unreg_3_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_reg_int_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_unreg_int_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_reg_int_same_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_reg_real_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_unreg_real_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_udf_reg_avg_func.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_sys_var_service.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_sys_var_service_same.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_sys_var_service_int.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_sys_var_service_str.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_status_var_service.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_status_var_service_int.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_status_var_service_str.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_status_var_service_reg_only.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_status_var_service_unreg_only.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_system_variable_source.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_host_application_signal.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_audit_api_message.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_mysql_runtime_error.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_mysql_current_thread_reader.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_component_deinit.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_mysql_system_variable_set.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_sensitive_system_variables.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_validate_password.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_pfs_resource_group.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_pfs_notification.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_table_access.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/component_test_udf_services.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/udf_example.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/lib/plugin/locking_service.so
+ 0x000000000000000f (RPATH)              Library rpath: [$ORIGIN/../private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/my_openssl
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib:$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/myisam_ftdump
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/myisamchk
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/myisamlog
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/myisampack
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlxtest
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_keyring_encryption_test
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_upgrade
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqltest
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlcheck
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqldump
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlimport
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlshow
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlbinlog
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqladmin
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlslap
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_config_editor
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_secure_installation
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_ssl_rsa_setup
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlpump
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_migrate_keyring
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/comp_err
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/my_print_defaults
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/perror
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/lz4_decompress
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/zlib_decompress
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/innochecksum
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/ibd2sdi
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_client_test
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqld
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysql_tzinfo_to_sql
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqltest_safe_process
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlrouter_passwd
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private:$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlrouter_plugin_info
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private:$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlrouter
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private:$ORIGIN/../lib/private]
+
+FILE: /opt/build/txsql-staging/root/usr/local/mysql/bin/mysqlrouter_keyring
+ 0x000000000000001d (RUNPATH)            Library runpath: [$ORIGIN/private:$ORIGIN/:$ORIGIN/../lib/mysqlrouter/private/:$ORIGIN/../private:$ORIGIN/../lib/private]
+

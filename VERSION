@@ -1,0 +1,32 @@
+# TXSQL Version — RELEASE (2026-07-30)
+# CentOS 7.9 x86_64 and openEuler 22.03 x86_64
+TXSQL_VERSION=8.0.30
+PACKAGE_VERSION=2.0.0
+MYSQL_BASE_VERSION=8.0.30
+RPM_BUILD=4
+RPM_DIST=el7
+FULL_NEVRA=txsql-8.0.30-4.el7.x86_64
+
+# CentOS 7.9 Build Host (verified):
+# GLIBC=2.17
+# GLIBCXX=6.0.28 (libstdc++.so.6.0.28 from GCC 10.2.1)
+# RPM=4.11.3
+# SYSTEMD=219
+# KERNEL=3.10.0-1160
+# SELINUX=Enforcing
+
+# Build Toolchain (actual):
+# GCC=10.2.1 (devtoolset-10)
+# CMAKE=3.17.5 (cmake3 from EPEL)
+# BOOST=1.77.0 (bundled in TXSQL source)
+# OPENSSL=3.4.1 (bundled in TXSQL source)
+
+# Release packages:
+# txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz (105 MB)
+# txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz (105 MB)
+# GitHub: https://github.com/Bren-L/TXSQL-deploy
+#
+# openEuler 22.03 x86_64 build (2026-07-29):
+# OPENSSL=1.1.1wa (system, SM3/SM4 built-in)
+# GCC=10.3.1 (system)
+# GLIBC=2.34

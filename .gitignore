@@ -1,0 +1,42 @@
+# Build artifacts
+dist/*.tar.gz
+dist/reports/
+build/tmp/
+build/workspace/
+
+# Platform-specific build outputs
+platforms/*/build/output/
+platforms/*/build/workspace/
+
+# RPM build artifacts
+rpmbuild/
+*.rpm
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / credentials
+*.pem
+*.key
+*.password
+credentials/
+.env.local
+
+# Logs
+*.log
+logs/
+
+# Test artifacts
+tests/**/tmp/
+tests/**/output/
+
+# Docker artifacts
+docker-compose.override.yml
