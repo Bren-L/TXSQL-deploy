@@ -109,11 +109,11 @@ sudo ss -tlnp | grep 3306
 
 # 3. 查看 TXSQL 版本
 sudo cat /root/.txsql_credentials   # 先取密码
-mysql -u root -p -S /var/lib/txsql/mysql.sock -e "SELECT VERSION();"
+mysql -u root -p -S /run/txsql/mysql.sock -e "SELECT VERSION();"
 # → 8.0.30-txsql
 
 # 4. 读写测试
-mysql -u root -p -S /var/lib/txsql/mysql.sock -e "
+mysql -u root -p -S /run/txsql/mysql.sock -e "
   CREATE DATABASE IF NOT EXISTS test_txsql;
   USE test_txsql;
   CREATE TABLE t (id INT, msg VARCHAR(50));
@@ -185,7 +185,7 @@ sudo bash uninstall.sh --purge   # 完全清除（含数据）
 |------|------|
 | 端口被占用 | `sudo ss -tlnp \| grep 3306` |
 | 服务启动失败 | `sudo journalctl -u txsql -f` |
-| 连接被拒 | `ls -la /var/lib/txsql/mysql.sock` |
+| 连接被拒 | `ls -la /run/txsql/mysql.sock` |
 | SELinux 拦截 | `sudo ausearch -m avc -ts recent` |
 | RPM 冲突 | `rpm -qa \| grep -i mysql`（先卸载旧版） |
 

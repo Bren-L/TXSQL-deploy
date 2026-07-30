@@ -1,0 +1,21 @@
+# runtime-pending.txt
+# Dependencies that need runtime verification on clean machine
+
+## Init scripts
+  - mysql.user creation (post-install scriptlet)
+  - data directory initialization (mysqld --initialize)
+
+## Runtime dynamic deps requiring clean-machine verification
+  - libssl.so.3 / libcrypto.so.3 RUNPATH resolution in /../lib/private
+  - Plugin loading with private OpenSSL 3.4.1 (compatibility with system 1.0.2k)
+  - semisync plugins
+  - group_replication plugin
+  - mysqlx plugin
+  - component_keyring_file
+
+## System service verification
+  - systemd unit file (need to create txsql.service)
+  - SELinux context (Enforcing on build host)
+
+## Status: PENDING clean verification machine
+## Build machine: CentOS 7.9.2009, kernel 3.10.0-1160, glibc 2.17

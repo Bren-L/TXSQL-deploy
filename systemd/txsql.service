@@ -1,0 +1,21 @@
+[Unit]
+Description=TXSQL Server 8.0.30
+Documentation=https://github.com/Bren-L/TXSQL-deploy
+After=network.target
+
+[Service]
+Type=forking
+User=txsql
+Group=txsql
+PIDFile=/run/txsql/mysqld.pid
+ExecStart=/usr/lib/txsql/current/bin/mysqld --defaults-file=/etc/txsql/my.cnf --daemonize --pid-file=/run/txsql/mysqld.pid
+ExecStop=/usr/lib/txsql/current/bin/mysqladmin --defaults-file=/etc/txsql/my.cnf -u root -S /run/txsql/mysql.sock shutdown
+Restart=on-failure
+RestartSec=5
+RuntimeDirectory=txsql
+RuntimeDirectoryMode=0750
+PrivateTmp=true
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

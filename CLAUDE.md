@@ -7,6 +7,7 @@ fork) packages for multiple Chinese Linux operating systems.
 
 **Target support matrix (Phase 1):**
 - CentOS 7.9 x86_64 — ✅ RELEASE (8.0.30-4.el7)
+- openEuler 22.03 LTS-SP3 x86_64 — ✅ RELEASE (8.0.30-1.0.0)
 - CentOS 7.8 x86_64 — ⏳ 待开发
 - TencentOS Server 2.4 x86_64 — ⏳ 待开发
 - TencentOS Server 3.1 x86_64 — ⏳ 待开发
@@ -38,6 +39,7 @@ fork) packages for multiple Chinese Linux operating systems.
 - Windows 11 development workstation (Git Bash)
 - Build VM: 192.168.44.151 (CentOS 7.9.2009 x86_64) — SSH alias `txsql-centos79-build`
 - Acceptance VM: 192.168.44.153 (CentOS 7.9.2009 x86_64) — SSH alias `txsql-acceptance2`
+- OpenEuler VM: 192.168.44.154 (openEuler 22.03 LTS-SP3 x86_64) — SSH key `C:/Users/20976/Desktop/TXSQL一键部署/.txsql_oe_key`
 - TXSQL 8.0.30 source code (tarball extract, no .git, 117,155 files)
 - SSH key for build host: `~/.ssh/txsql_centos79`
 - SSH key for acceptance host: `~/.ssh/txsql_centos79_acceptance`
@@ -64,7 +66,7 @@ fork) packages for multiple Chinese Linux operating systems.
 | 10 | Implement installer | ✅ DONE (install.sh + lib/) |
 | 11 | Per-platform offline acceptance | ✅ DONE (26/26 passed, incl. REBOOT) |
 | 12 | GitHub Release | ✅ DONE (v8.0.30-1.0.0) |
-| 13 | Expand to more platforms | 🔄 IN PROGRESS |
+| 13 | Expand to more platforms | 🔄 IN PROGRESS (openEuler ✅) |
 
 ## Key Technical Decisions
 

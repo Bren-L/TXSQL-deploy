@@ -80,7 +80,7 @@ if [ "${INSTALL_RC}" -eq 0 ]; then
     log_info "================================================"
     echo ""
     echo "  查看 root 密码:  sudo cat /root/.txsql_credentials"
-    echo "  连接数据库:      mysql -u root -p -S /var/lib/txsql/mysql.sock"
+    echo "  连接数据库:      mysql -u root -p -S /run/txsql/mysql.sock"
     echo "  服务管理:        sudo systemctl status txsql"
     echo ""
     echo "  GitHub: https://github.com/${GITHUB_REPO}"

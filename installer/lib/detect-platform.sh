@@ -59,6 +59,10 @@ KNOWN_PLATFORMS+=("kylin-v10-sp2-aarch64|kylin|V10|V10 SP2|aarch64|kylin-release
 # ── Kylin V10 SP3 aarch64 — UNVERIFIED ─────────────────────────────────────
 KNOWN_PLATFORMS+=("kylin-v10-sp3-aarch64|kylin|V10|V10 SP3|aarch64|kylin-release|kylin-release-V10SP3|UNVERIFIED")
 
+# ── openEuler 22.03 LTS-SP3 — VERIFIED (2026-07-29) ────────────────────────
+# VM: 192.168.44.154, 5.10.0 kernel, GCC 10.3.1, glibc 2.34, OpenSSL 1.1.1wa
+KNOWN_PLATFORMS+=("openeuler-22.03-x86_64|openEuler|22.03|22.03 LTS-SP3|x86_64|openEuler-release|openEuler-release-22.03|VERIFIED")
+
 # ── Detection functions ─────────────────────────────────────────────────────
 
 detect_os_release() {
@@ -219,6 +223,13 @@ detect_platform() {
         # Normalize SP string: "SP1" → "sp1"
         sp=$(echo "$sp" | tr '[:upper:]' '[:lower:]' | sed 's/ //g')
         candidates+=("kylin-v10-${sp}-${DETECTED_ARCH}")
+    fi
+
+    # For openEuler
+    if [[ "$DETECTED_OS_ID" == "openEuler" ]] || [[ "$DETECTED_OS_ID" == "openeuler" ]]; then
+        local oe_ver="$DETECTED_VERSION_ID"
+        # openEuler version: 22.03 → openeuler-22.03-x86_64
+        candidates+=("openeuler-${oe_ver}-${DETECTED_ARCH}")
     fi
 
     # Generic candidate (last resort)

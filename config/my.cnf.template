@@ -1,0 +1,32 @@
+[client]
+socket=/run/txsql/mysql.sock
+
+[mysqld]
+# ── Basic ──────────────────────────────────────────
+user=txsql
+basedir=/usr/lib/txsql/current
+datadir=/var/lib/txsql/data
+socket=/run/txsql/mysql.sock
+port=3306
+pid-file=/run/txsql/mysqld.pid
+
+# ── Logging ────────────────────────────────────────
+log-error=/var/log/txsql/error.log
+log_timestamps=SYSTEM
+
+# ── Character set ──────────────────────────────────
+character-set-server=utf8mb4
+collation-server=utf8mb4_general_ci
+
+# ── InnoDB ─────────────────────────────────────────
+innodb_buffer_pool_size=128M
+innodb_log_file_size=48M
+innodb_flush_method=O_DIRECT
+innodb_file_per_table=1
+
+# ── Connections ────────────────────────────────────
+max_connections=200
+bind-address=127.0.0.1
+
+# ── Config directory ───────────────────────────────
+!includedir /etc/txsql/conf.d/
