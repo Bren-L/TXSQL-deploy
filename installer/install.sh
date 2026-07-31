@@ -25,8 +25,8 @@ STATE_FILE="/var/lib/txsql/.install_state"
 
 TXSQL_VERSION="8.0.30"
 TXSQL_PORT=3306
-TXSQL_USER="txsql"
-TXSQL_GROUP="txsql"
+TXSQL_USER="root"
+TXSQL_GROUP="root"
 TXSQL_BASEDIR="/usr/lib/txsql/current"
 TXSQL_REALDIR="/usr/lib/txsql/${TXSQL_VERSION}"
 TXSQL_DATADIR="/var/lib/txsql/data"
@@ -347,39 +347,23 @@ deploy_binary() {
 # ══════════════════════════════════════════════════════════════════════════
 
 run_user_and_dirs() {
-    log_step "Creating txsql user and directories..."
+    log_step "Creating directories..."
 
-    # Create group
-    if ! getent group "$TXSQL_GROUP" &>/dev/null; then
-        groupadd -r "$TXSQL_GROUP" 2>/dev/null || true
-        log_info "Group created: $TXSQL_GROUP"
-    fi
-
-    # Create user
-    if ! id "$TXSQL_USER" &>/dev/null 2>&1; then
-        useradd -r -g "$TXSQL_GROUP" -s /sbin/nologin \
-                -d "$TXSQL_DATADIR" -c "TXSQL Server" "$TXSQL_USER" 2>/dev/null || true
-        log_info "User created: $TXSQL_USER"
-    fi
-
-    # Create directories
+    # Create directories (owned by root)
     local dirs=(
-        "$TXSQL_DATADIR|0750|$TXSQL_USER:$TXSQL_GROUP"
-        "$TXSQL_LOGDIR|0750|$TXSQL_USER:$TXSQL_GROUP"
-        "$TXSQL_CONFDIR|0750|root:$TXSQL_GROUP"
+        "$TXSQL_DATADIR|0750"
+        "$TXSQL_LOGDIR|0750"
+        "$TXSQL_CONFDIR|0750"
     )
     for entry in "${dirs[@]}"; do
         local dir=$(echo "$entry" | cut -d'|' -f1)
         local perm=$(echo "$entry" | cut -d'|' -f2)
-        local owner=$(echo "$entry" | cut -d'|' -f3)
         mkdir -p "$dir"
         chmod "$perm" "$dir"
-        chown "$owner" "$dir" 2>/dev/null || true
     done
 
     # /run/txsql is handled by systemd RuntimeDirectory, but create as fallback
     mkdir -p "$TXSQL_RUNDIR"
-    chown "$TXSQL_USER:$TXSQL_GROUP" "$TXSQL_RUNDIR" 2>/dev/null || true
     chmod 0750 "$TXSQL_RUNDIR" 2>/dev/null || true
 
     log_info "Directories ready"
@@ -425,7 +409,6 @@ bind-address=127.0.0.1
 EOF
 
     chmod 0640 "$TXSQL_CONFIG"
-    chown "root:${TXSQL_GROUP}" "$TXSQL_CONFIG"
     log_info "Created: $TXSQL_CONFIG"
 }
 
@@ -615,22 +598,16 @@ EOF
 run_verify() {
     log_step "Running SQL verification..."
 
-    local root_pw=$(grep TXSQL_ROOT_PASSWORD "$TXSQL_CREDENTIALS" 2>/dev/null | cut -d= -f2 || true)
-    if [[ -z "$root_pw" ]]; then
-        log_warn "Cannot read root password — skipping SQL verification"
-        return 0
-    fi
-
     echo ""
     MYSQL_BIN="${TXSQL_BASEDIR}/bin/mysql"
-    "$MYSQL_BIN" -u root -p"$root_pw" -S "$TXSQL_SOCKET" -e "
+    "$MYSQL_BIN" -u root -S "$TXSQL_SOCKET" -e "
         SELECT VERSION() AS version;
         SELECT @@port AS port;
         SELECT @@datadir AS datadir;
         SELECT @@socket AS socket;
     " 2>/dev/null || {
         log_warn "SQL verification query failed — check manually"
-        log_warn "Run: ${MYSQL_BIN} -u root -p -S ${TXSQL_SOCKET}"
+        log_warn "Run: ${MYSQL_BIN} -u root -S ${TXSQL_SOCKET}"
         return 0
     }
     echo ""
@@ -660,7 +637,6 @@ main() {
     run_phase "CONFIG"           run_config
     run_phase "INIT_DB"          run_init_db
     run_phase "SERVICE"          run_service
-    run_phase "CREDENTIALS"      run_credentials
     run_phase "VERIFY"           run_verify
 
     echo ""
@@ -673,9 +649,7 @@ main() {
     echo "  Socket:   ${TXSQL_SOCKET}"
     echo "  Data:     ${TXSQL_DATADIR}"
     echo "  Config:   ${TXSQL_CONFIG}"
-    echo "  Password: sudo cat ${TXSQL_CREDENTIALS}"
-    echo ""
-    echo "  Connect:  mysql -u root -p -S ${TXSQL_SOCKET}"
+    echo "  Connect:  mysql -u root -S ${TXSQL_SOCKET}"
     echo "  Status:   sudo systemctl status txsql"
     echo ""
     exit 0

@@ -50,7 +50,7 @@
 | 参数 | 默认值 |
 |------|--------|
 | 端口 | 3306 |
-| 系统用户 | txsql:txsql |
+| 系统用户 | root:root |
 | 基路径 | /usr/lib/txsql/current → 8.0.30 |
 | 数据目录 | /var/lib/txsql/data |
 | 日志目录 | /var/log/txsql |
@@ -58,7 +58,7 @@
 | Socket | /run/txsql/mysql.sock |
 | 配置文件 | /etc/txsql/my.cnf |
 | 配置目录 | /etc/txsql/conf.d |
-| 凭据文件 | /root/.txsql_credentials |
+
 
 ---
 
@@ -82,7 +82,6 @@
 - 自动关闭 SELinux
 - 自动关闭防火墙
 - 安装过程中 `read` 交互
-- root 用户运行 mysqld
 
 ---
 
@@ -96,27 +95,16 @@ CentOS 7 minimal 已内置 `curl`、`tar`、`sudo`，**无需安装任何额外�
 
 ### 环境准备
 
-首先以 root 身份创建一个具有 sudo 权限的 `txsql` 用户，后续所有操作均在该用户下进行：
+安装过程以 **root 用户**直接执行，无需创建专用用户：
 
 ```bash
-# 创建 txsql 用户
-sudo useradd -m txsql
-
-# 设置密码
-sudo passwd txsql
-
-# 授予 sudo 权限
-sudo usermod -aG wheel txsql
-
-# 切换到 txsql 用户
-su - txsql
+# 确保以 root 身份操作（或使用 sudo）
+whoami  # 应输出 root
 ```
-
-> **注意**：CentOS 7 的 wheel 组默认已配置 sudo 权限。如果未生效，可执行 `visudo` 确认 `%wheel ALL=(ALL) ALL` 未被注释。
 
 ### 方式一：直接下载安装
 
-在 `txsql` 用户下执行：
+以 root 用户执行：
 
 ```bash
 # Step 1: 下载并解压
@@ -127,7 +115,7 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
   && cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
 
 # Step 2: 安装
-sudo bash install.sh </dev/null
+bash install.sh </dev/null
 ```
 
 ### 方式二：本地下载后上传
@@ -144,24 +132,63 @@ https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-off
 
 **Step 2：上传到虚拟机**
 
-使用 Xshell、MobaXterm 等工具将下载的压缩包上传到虚拟机，例如上传到 `/home/txsql/` 目录。
+使用 Xshell、MobaXterm 等工具将下载的压缩包上传到虚拟机，例如上传到 `/root/` 目录。
 
 **Step 3：解压并安装**
 
-切换到 `txsql` 用户，在 `/home/txsql/` 下操作：
+以 root 用户在 `/root/` 下操作：
 
 ```bash
-# 切换到 txsql 用户（如尚未切换）
-su - txsql
-
 # 解压
-tar xzf /home/txsql/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
+tar xzf /root/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
 
 # 进入解压目录
 cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
 
 # 一键安装
-sudo bash install.sh </dev/null
+bash install.sh </dev/null
+```
+
+### 配置环境变量
+
+安装完成后，将 MySQL 客户端加入 PATH：
+
+```bash
+echo 'export PATH="/usr/lib/txsql/current/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+### 验证部署
+
+```bash
+# 1. 服务正在运行
+systemctl status txsql | head -3
+
+# 2. 端口已监听
+ss -tlnp | grep 3306
+
+# 3. 查看版本和 socket
+/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
+# → 8.0.30-txsql | /run/txsql/mysql.sock
+
+# 4. 读写测试
+/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "
+  CREATE DATABASE IF NOT EXISTS test_txsql;
+  USE test_txsql;
+  CREATE TABLE t (id INT, msg VARCHAR(50));
+  INSERT INTO t VALUES (1, 'hello txsql');
+  SELECT * FROM t;
+  DROP DATABASE test_txsql;
+"
+```
+
+> 5 项全通过即为部署成功：服务 running ✅、端口 3306 ✅、版本 8.0.30-txsql ✅、读写正常 ✅、socket 路径正确 ✅。
+
+### 卸载
+
+```bash
+bash uninstall.sh           # 保留数据、日志、配置
+bash uninstall.sh --purge   # 完全清除（含数据）
 ```
 
 ---
@@ -172,31 +199,25 @@ sudo bash install.sh </dev/null
 
 ### 前置依赖
 
-openEuler 22.03 minimal 已内置 `curl`、`tar`、`sudo`，**无需安装任何额外依赖**。
+openEuler 22.03 minimal 可能缺少 `tar` 等基础工具，安装前需先补齐：
+
+```bash
+# 以 root 身份安装基础开发工具
+dnf install -y tar curl sudo
+```
 
 ### 环境准备
 
-首先以 root 身份创建一个具有 sudo 权限的 `txsql` 用户，后续所有操作均在该用户下进行：
+安装过程以 **root 用户**直接执行，无需创建专用用户：
 
 ```bash
-# 创建 txsql 用户
-sudo useradd -m txsql
-
-# 设置密码
-sudo passwd txsql
-
-# 授予 sudo 权限
-sudo usermod -aG wheel txsql
-
-# 切换到 txsql 用户
-su - txsql
+# 确保以 root 身份操作（或使用 sudo）
+whoami  # 应输出 root
 ```
-
-> **注意**：openEuler 的 wheel 组默认已配置 sudo 权限。如果未生效，可执行 `visudo` 确认 `%wheel ALL=(ALL) ALL` 未被注释。
 
 ### 方式一：直接下载安装
 
-在 `txsql` 用户下执行：
+以 root 用户执行：
 
 ```bash
 # Step 1: 下载并解压
@@ -207,7 +228,7 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
   && cd txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64
 
 # Step 2: 安装
-sudo bash install.sh </dev/null
+bash install.sh </dev/null
 ```
 
 ### 方式二：本地下载后上传
@@ -224,24 +245,21 @@ https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-off
 
 **Step 2：上传到虚拟机**
 
-使用 Xshell、MobaXterm 等工具将下载的压缩包上传到虚拟机，例如上传到 `/home/txsql/` 目录。
+使用 Xshell、MobaXterm 等工具将下载的压缩包上传到虚拟机，例如上传到 `/root/` 目录。
 
 **Step 3：解压并安装**
 
-切换到 `txsql` 用户，在 `/home/txsql/` 下操作：
+以 root 用户在 `/root/` 下操作：
 
 ```bash
-# 切换到 txsql 用户（如尚未切换）
-su - txsql
-
 # 解压
-tar xzf /home/txsql/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz
+tar xzf /root/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz
 
 # 进入解压目录
 cd txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64
 
 # 一键安装
-sudo bash install.sh </dev/null
+bash install.sh </dev/null
 ```
 
 ### 配置环境变量
@@ -257,18 +275,17 @@ source ~/.bashrc
 
 ```bash
 # 1. 服务正在运行
-sudo systemctl status txsql | head -3
+systemctl status txsql | head -3
 
 # 2. 端口已监听
-sudo ss -tlnp | grep 3306
+ss -tlnp | grep 3306
 
 # 3. 查看版本和 socket
-sudo cat /root/.txsql_credentials
-mysql -u root -p -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
+/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
 # → 8.0.30-txsql | /run/txsql/mysql.sock
 
 # 4. 读写测试
-mysql -u root -p -S /run/txsql/mysql.sock -e "
+/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "
   CREATE DATABASE IF NOT EXISTS test_txsql;
   USE test_txsql;
   CREATE TABLE t (id INT, msg VARCHAR(50));
@@ -278,13 +295,13 @@ mysql -u root -p -S /run/txsql/mysql.sock -e "
 "
 ```
 
-> 6 项全通过即为部署成功：服务 running ✅、端口 3306 ✅、版本 8.0.30-txsql ✅、读写正常 ✅、密码可查 ✅、socket 路径正确 ✅。
+> 5 项全通过即为部署成功：服务 running ✅、端口 3306 ✅、版本 8.0.30-txsql ✅、读写正常 ✅、socket 路径正确 ✅。
 
 ### 卸载
 
 ```bash
-sudo bash uninstall.sh           # 保留数据、日志、配置
-sudo bash uninstall.sh --purge   # 完全清除（含数据）
+bash uninstall.sh           # 保留数据、日志、配置
+bash uninstall.sh --purge   # 完全清除（含数据）
 ```
 
 ---

@@ -93,15 +93,8 @@ else
     log_info "Preserved: /root/.txsql_credentials"
 fi
 
-# 9. Optionally remove user (only if purge)
-if $PURGE; then
-    if id txsql &>/dev/null 2>&1; then
-        userdel txsql 2>/dev/null && log_info "User 'txsql' removed" || true
-    fi
-    if getent group txsql &>/dev/null 2>&1; then
-        groupdel txsql 2>/dev/null && log_info "Group 'txsql' removed" || true
-    fi
-fi
+# 9. User/group removal skipped — running as root
+log_info "Running as root — no user/group to remove"
 
 echo ""
 echo "============================================"

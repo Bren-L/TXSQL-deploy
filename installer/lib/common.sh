@@ -94,8 +94,8 @@ enable_install_trap() {
 # ── Default paths ───────────────────────────────────────────────────────────
 
 : "${TXSQL_PORT:=3306}"
-: "${TXSQL_USER:=txsql}"
-: "${TXSQL_GROUP:=txsql}"
+: "${TXSQL_USER:=root}"
+: "${TXSQL_GROUP:=root}"
 : "${TXSQL_BASEDIR:=/usr/lib/txsql/current}"
 : "${TXSQL_DATADIR:=/var/lib/txsql/data}"
 : "${TXSQL_LOGDIR:=/var/log/txsql}"
