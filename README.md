@@ -1,6 +1,6 @@
-# TXSQL Offline Deployment — TXSQL 8.0.30 离线一键部署
+# TXSQL 8.0.30 一键安装部署工具
 
-> **腾讯 TXSQL (Tencent MySQL) 多操作系统离线无人值守部署工程**
+> 一条命令 · 多平台支持
 
 ---
 
@@ -64,13 +64,12 @@
 
 ## 核心原则
 
-1. **完全离线** — 安装过程不访问互联网
-2. **完全无人值守** — `sudo bash install.sh </dev/null` 零交互
-3. **每平台独立** — 独立构建、独立依赖闭包、独立验收
-4. **系统原生包管理** — CentOS 使用 RPM/yum，openEuler 使用二进制部署
-5. **安全优先** — 不删数据、不强制覆盖、冲突即退出
-6. **测试门禁** — 未经原生系统验收的平台不声明支持
-7. **幂等安装** — 重复安装检测已有数据，不重复初始化
+1. **一键安装部署** — `sudo bash install.sh </dev/null` 零交互
+2. **每平台独立** — 独立构建、独立依赖闭包、独立验收
+3. **系统原生包管理** — CentOS 使用 RPM/yum，openEuler 使用二进制部署
+4. **安全优先** — 不删数据、不强制覆盖、冲突即退出
+5. **测试门禁** — 未经原生系统验收的平台不声明支持
+6. **幂等安装** — 重复安装检测已有数据，不重复初始化
 
 ---
 
@@ -95,7 +94,29 @@
 
 CentOS 7 minimal 已内置 `curl`、`tar`、`sudo`，**无需安装任何额外依赖**。
 
-### 方式一：下载并安装
+### 环境准备
+
+首先以 root 身份创建一个具有 sudo 权限的 `txsql` 用户，后续所有操作均在该用户下进行：
+
+```bash
+# 创建 txsql 用户
+sudo useradd -m txsql
+
+# 设置密码
+sudo passwd txsql
+
+# 授予 sudo 权限
+sudo usermod -aG wheel txsql
+
+# 切换到 txsql 用户
+su - txsql
+```
+
+> **注意**：CentOS 7 的 wheel 组默认已配置 sudo 权限。如果未生效，可执行 `visudo` 确认 `%wheel ALL=(ALL) ALL` 未被注释。
+
+### 方式一：直接下载安装
+
+在 `txsql` 用户下执行：
 
 ```bash
 # Step 1: 下载并解压
@@ -109,19 +130,37 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
 sudo bash install.sh </dev/null
 ```
 
-### 方式二：离线传输
+### 方式二：本地下载后上传
 
-在有网络的机器上下载解压，通过 U 盘 / SCP 传到目标机：
+如果虚拟机无法直接访问 GitHub，先在本地下载再上传。
+
+**Step 1：本地下载**
+
+在浏览器中访问以下地址，下载对应平台的压缩包：
+
+```
+https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
+```
+
+**Step 2：上传到虚拟机**
+
+使用 Xshell、MobaXterm 等工具将下载的压缩包上传到虚拟机，例如上传到 `/home/txsql/` 目录。
+
+**Step 3：解压并安装**
+
+切换到 `txsql` 用户，在 `/home/txsql/` 下操作：
 
 ```bash
-# === 可联网机器 ===
-curl -fSL --retry 3 -# -o txsql.tar.gz \
-  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz \
-  && tar xzf txsql.tar.gz
-scp -r txsql-offline-*/ root@<目标机器IP>:/tmp/
+# 切换到 txsql 用户（如尚未切换）
+su - txsql
 
-# === 目标机器 ===
-cd /tmp/txsql-offline-*/
+# 解压
+tar xzf /home/txsql/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
+
+# 进入解压目录
+cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
+
+# 一键安装
 sudo bash install.sh </dev/null
 ```
 
@@ -135,7 +174,29 @@ sudo bash install.sh </dev/null
 
 openEuler 22.03 minimal 已内置 `curl`、`tar`、`sudo`，**无需安装任何额外依赖**。
 
-### 下载并安装
+### 环境准备
+
+首先以 root 身份创建一个具有 sudo 权限的 `txsql` 用户，后续所有操作均在该用户下进行：
+
+```bash
+# 创建 txsql 用户
+sudo useradd -m txsql
+
+# 设置密码
+sudo passwd txsql
+
+# 授予 sudo 权限
+sudo usermod -aG wheel txsql
+
+# 切换到 txsql 用户
+su - txsql
+```
+
+> **注意**：openEuler 的 wheel 组默认已配置 sudo 权限。如果未生效，可执行 `visudo` 确认 `%wheel ALL=(ALL) ALL` 未被注释。
+
+### 方式一：直接下载安装
+
+在 `txsql` 用户下执行：
 
 ```bash
 # Step 1: 下载并解压
@@ -147,6 +208,49 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
 
 # Step 2: 安装
 sudo bash install.sh </dev/null
+```
+
+### 方式二：本地下载后上传
+
+如果虚拟机无法直接访问 GitHub，先在本地下载再上传。
+
+**Step 1：本地下载**
+
+在浏览器中访问以下地址，下载对应平台的压缩包：
+
+```
+https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz
+```
+
+**Step 2：上传到虚拟机**
+
+使用 Xshell、MobaXterm 等工具将下载的压缩包上传到虚拟机，例如上传到 `/home/txsql/` 目录。
+
+**Step 3：解压并安装**
+
+切换到 `txsql` 用户，在 `/home/txsql/` 下操作：
+
+```bash
+# 切换到 txsql 用户（如尚未切换）
+su - txsql
+
+# 解压
+tar xzf /home/txsql/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz
+
+# 进入解压目录
+cd txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64
+
+# 一键安装
+sudo bash install.sh </dev/null
+```
+
+### 配置环境变量
+
+安装完成后，将 MySQL 客户端加入 PATH：
+
+```bash
+echo 'export PATH="/usr/lib/txsql/current/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ### 验证部署
@@ -237,8 +341,15 @@ make build-all
 
 | 版本 | 日期 | 说明 |
 |------|------|------|
-| [v8.0.30-2.0.0](https://github.com/Bren-L/TXSQL-deploy/releases) | 2026-07-30 | CentOS 7.9 + openEuler 22.03 双平台支持 |
+| [v8.0.30-2.0.0](https://github.com/Bren-L/TXSQL-deploy/releases) | 2026-07-31 | CentOS 7.9 + openEuler 22.03 双平台支持 (修订版) |
 | [v8.0.30-1.0.0](https://github.com/Bren-L/TXSQL-deploy/releases/tag/v8.0.30-1.0.0) | 2026-07-23 | 首个正式发布，CentOS 7.9 x86_64 支持 |
+
+### v8.0.30-2.0.0 SHA-256
+
+| 包文件 | SHA-256 |
+|--------|---------|
+| `txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz` | `32806af60e88d5847fe19eb803d3ce47fe98a1b71579a7c9a9d3d1f8936cfbfa` |
+| `txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz` | `d76c7f2bb13530fd68861559deca8197690c9255a11fd4b9b4d4fe983e08dc64` |
 
 ---
 

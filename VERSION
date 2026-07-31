@@ -1,4 +1,4 @@
-# TXSQL Version — RELEASE (2026-07-30)
+# TXSQL Version — RELEASE (2026-07-31)
 # CentOS 7.9 x86_64 and openEuler 22.03 x86_64
 TXSQL_VERSION=8.0.30
 PACKAGE_VERSION=2.0.0
@@ -21,9 +21,11 @@ FULL_NEVRA=txsql-8.0.30-4.el7.x86_64
 # BOOST=1.77.0 (bundled in TXSQL source)
 # OPENSSL=3.4.1 (bundled in TXSQL source)
 
-# Release packages:
-# txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz (105 MB)
-# txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz (105 MB)
+# Release packages (2026-07-31 rebuild, internal dir names fixed):
+# txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz (102 MB)
+#   SHA256: 32806af60e88d5847fe19eb803d3ce47fe98a1b71579a7c9a9d3d1f8936cfbfa
+# txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz (102 MB)
+#   SHA256: d76c7f2bb13530fd68861559deca8197690c9255a11fd4b9b4d4fe983e08dc64
 # GitHub: https://github.com/Bren-L/TXSQL-deploy
 #
 # openEuler 22.03 x86_64 build (2026-07-29):
