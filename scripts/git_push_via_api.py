@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Push local git repo to GitHub via REST API. Token from command line."""
-import subprocess, json, os, sys, base64, urllib.request, urllib.error
+import subprocess, json, os, sys, base64, urllib.request, urllib.error, time
 
 TOKEN = sys.argv[1] if len(sys.argv) > 1 else None
 if not TOKEN:
@@ -11,29 +11,35 @@ REPO = "Bren-L/TXSQL-deploy"
 BRANCH = "main"
 
 def run(cmd):
-    return subprocess.run(cmd, capture_output=True, text=True, shell=True)
+    return subprocess.run(cmd, capture_output=True, text=True, shell=True, encoding='utf-8', errors='replace')
 
-def api(method, endpoint, data=None):
+def api(method, endpoint, data=None, retries=3):
     url = f"https://api.github.com/repos/{REPO}/{endpoint}"
     body = json.dumps(data).encode() if data else None
-    req = urllib.request.Request(url, data=body, method=method)
-    req.add_header("Authorization", f"Bearer {TOKEN}")
-    req.add_header("Accept", "application/vnd.github+json")
-    req.add_header("X-GitHub-Api-Version", "2022-11-28")
-    req.add_header("Content-Type", "application/json")
-    try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            return json.loads(resp.read().decode())
-    except urllib.error.HTTPError as e:
-        err = e.read().decode()
-        print(f"  API {e.code}: {err[:300]}")
-        return None
-    except Exception as e:
-        print(f"  API ERR: {e}")
-        return None
+    for attempt in range(retries):
+        req = urllib.request.Request(url, data=body, method=method)
+        req.add_header("Authorization", f"Bearer {TOKEN}")
+        req.add_header("Accept", "application/vnd.github+json")
+        req.add_header("X-GitHub-Api-Version", "2022-11-28")
+        req.add_header("Content-Type", "application/json")
+        try:
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                return json.loads(resp.read().decode())
+        except urllib.error.HTTPError as e:
+            err = e.read().decode()
+            print(f"  API {e.code}: {err[:300]}")
+            return None
+        except Exception as e:
+            if attempt < retries - 1:
+                print(f"  Retry {attempt+1}/{retries}: {e}")
+                time.sleep(2)
+            else:
+                print(f"  API ERR (final): {e}")
+                return None
 
 def push():
-    print("=== Push TXSQL to GitHub via API ===\n")
+    print("=== Push TXSQL to GitHub via API ===")
+    print()
 
     files = sorted([f.strip() for f in run("git ls-files").stdout.strip().split("\n") if f.strip()])
     print(f"[1/5] {len(files)} files")
@@ -64,6 +70,8 @@ def push():
         if blob and "sha" in blob:
             mode = "100755" if (f.endswith(".sh") or f.endswith(".py")) else "100644"
             blobs[f] = {"sha": blob["sha"], "mode": mode}
+        else:
+            print(f"  FAILED blob: {f}")
 
         if (i+1) % 20 == 0: print(f"  {i+1}/{len(files)}", flush=True)
 
@@ -77,7 +85,9 @@ def push():
     tree_items = [{"path": f.replace("\\","/"), "mode": blobs[f]["mode"], "type": "blob", "sha": blobs[f]["sha"]}
                   for f in sorted(blobs)]
     tree = api("POST", "git/trees", {"tree": tree_items})
-    if not tree or "sha" not in tree: return print(f"TREE FAIL: {tree}")
+    if not tree or "sha" not in tree:
+        print(f"TREE FAIL: {tree}")
+        return
     print(f"  Tree: {tree['sha']}")
 
     # Commit
@@ -86,7 +96,9 @@ def push():
               "email": run("git log -1 --format=%ae").stdout.strip()}
     commit = api("POST", "git/commits", {"message": msg, "author": author, "tree": tree["sha"],
                                           **({"parents": [parent]} if parent else {})})
-    if not commit or "sha" not in commit: return print(f"COMMIT FAIL: {commit}")
+    if not commit or "sha" not in commit:
+        print(f"COMMIT FAIL: {commit}")
+        return
     sha = commit["sha"]
     print(f"  Commit: {sha}")
 
@@ -97,10 +109,11 @@ def push():
     else:
         result = api("POST", "git/refs", {"ref": f"refs/heads/{BRANCH}", "sha": sha})
     if result:
-        print(f"\n  ✓ PUSHED!")
+        print()
+        print("  [OK] PUSHED!")
         print(f"  https://github.com/{REPO}")
     else:
-        print(f"  ✗ FAILED")
+        print(f"  [FAILED]")
 
 if __name__ == "__main__":
     os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

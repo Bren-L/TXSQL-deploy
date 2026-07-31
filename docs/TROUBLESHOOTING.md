@@ -1,93 +1,93 @@
 # Troubleshooting
 
-> **Status**: PRELIMINARY — based on expected issues, not field data.
-> **Date**: 2026-07-22
-
 ---
 
-## Common Issues
+## 常见问题
 
-### "Platform not supported" error
+### "mysql: command not found" / "mysql: 未找到命令"
 
-**Symptom**: `detect-platform.sh` exits with platform mismatch.
+**原因**: PATH 未生效。
 
-**Cause**: The target OS does not match any known fingerprint.
-
-**Fix**:
-1. Check `/etc/os-release` and compare with expected values in `docs/PLATFORM_FINGERPRINTS.md`
-2. If this is a supported platform variant, collect fingerprints and add to the database
-3. Do NOT use `--force-platform` (not implemented in Phase 1)
-
-### "SHA-256 verification failed"
-
-**Symptom**: `verify-media.sh` reports checksum mismatch.
-
-**Cause**: File corruption during transfer or tampering.
-
-**Fix**:
-1. Re-transfer the bundle (use `rsync -c` or verify checksums after transfer)
-2. If the issue persists, re-download or re-build the bundle
-3. Check storage media for errors
-
-### "Dependency resolution failed"
-
-**Symptom**: `yum install` reports missing dependencies.
-
-**Cause**: Incomplete dependency closure in the local repository.
-
-**Fix**: This should not happen in a properly built bundle.  Report the
-missing dependencies and rebuild with an updated closure.
-
-### "mysqld fails to start"
-
-**Symptom**: `systemctl start txsql` fails or times out.
-
-**Fix**:
+**解决**:
 ```bash
-# Check error log
+source /etc/profile.d/txsql.sh
+# 或直接用完整路径
+/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock
+```
+
+### "ERROR 2002: Can't connect through socket"
+
+**原因**: mysqld 未运行或 socket 路径不对。
+
+**解决**:
+```bash
+systemctl status txsql
+ls -la /run/txsql/mysql.sock
+```
+
+### "mysqld fails to start" / 服务启动失败
+
+**解决**:
+```bash
+# 查看日志
 journalctl -u txsql -n 100
 tail -100 /var/log/txsql/error.log
 
-# Check if port is in use
+# 端口占用
 ss -tlnp | grep 3306
 
-# Check SELinux denials
+# SELinux 拦截
 ausearch -m avc -ts recent
 
-# Check file permissions
+# 文件权限
 ls -la /var/lib/txsql/data/
 ls -la /etc/txsql/
 ```
 
 ### "Library not found" errors
 
-**Symptom**: `ldd /usr/lib/txsql/current/bin/mysqld` shows "not found".
+**原因**: 运行时依赖缺失。
 
-**Cause**: Missing runtime dependency.
+**检查**:
+```bash
+ldd /usr/lib/txsql/current/bin/mysqld | grep "not found"
+```
 
-**Fix**: This indicates a build problem.  The dependency closure computation
-should have caught this.  Report the missing library and investigate the
-build pipeline.
+### "Dependency resolution failed"（CentOS RPM 模式）
+
+**原因**: 本地 yum 仓库缺少依赖包。
+
+**解决**:
+```bash
+yum --disablerepo='*' --enablerepo='txsql-offline' deplist txsql-server
+```
+
+### 端口被占用
+
+```bash
+ss -tlnp | grep 3306
+# 如被占用，可指定其他端口安装：
+bash install.sh --port 3307
+```
+
+### RPM 冲突
+
+```bash
+# 检查是否已有 MySQL/MariaDB
+rpm -qa | grep -iE 'mysql|mariadb'
+# 先卸载旧版再安装 TXSQL
+```
 
 ---
 
-## Log Locations
+## 日志位置
 
-| Component | Log Location |
-|-----------|-------------|
-| Installer | `/var/log/txsql/install.log` |
-| MySQL error | `/var/log/txsql/error.log` |
-| MySQL general | `/var/log/txsql/general.log` (if enabled) |
-| Slow query | `/var/log/txsql/slow.log` (if enabled) |
+| 组件 | 路径 |
+|------|------|
+| 安装日志 | `/var/log/txsql/install.log` |
+| MySQL 错误 | `/var/log/txsql/error.log` |
+| MySQL 通用 | `/var/log/txsql/general.log`（需开启） |
+| 慢查询 | `/var/log/txsql/slow.log`（需开启） |
 | systemd | `journalctl -u txsql` |
-| SELinux AVC | `ausearch -m avc -ts recent` |
-| RPM transactions | `/var/log/yum.log` or `dnf.log` |
-
----
-
-## Getting Help
-
-1. Check this document first
-2. Check `docs/PLATFORM_MATRIX.md` for platform-specific known issues
-3. Review `DECISIONS.md` for design rationale
-4. Check the installer log at `/var/log/txsql/install.log`
+| SELinux | `ausearch -m avc -ts recent` |
+| RPM/yum | `/var/log/yum.log` 或 `dnf.log` |

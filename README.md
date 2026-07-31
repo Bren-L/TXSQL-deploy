@@ -149,15 +149,6 @@ cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
 bash install.sh </dev/null
 ```
 
-### 配置环境变量
-
-安装完成后，将 MySQL 客户端加入 PATH：
-
-```bash
-echo 'export PATH="/usr/lib/txsql/current/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-```
-
 ### 验证部署
 
 ```bash
@@ -168,11 +159,11 @@ systemctl status txsql | head -3
 ss -tlnp | grep 3306
 
 # 3. 查看版本和 socket
-/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
+mysql -u root -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
 # → 8.0.30-txsql | /run/txsql/mysql.sock
 
 # 4. 读写测试
-/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "
+mysql -u root -S /run/txsql/mysql.sock -e "
   CREATE DATABASE IF NOT EXISTS test_txsql;
   USE test_txsql;
   CREATE TABLE t (id INT, msg VARCHAR(50));
@@ -262,15 +253,6 @@ cd txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64
 bash install.sh </dev/null
 ```
 
-### 配置环境变量
-
-安装完成后，将 MySQL 客户端加入 PATH：
-
-```bash
-echo 'export PATH="/usr/lib/txsql/current/bin:$PATH"' >> ~/.bashrc
-source ~/.bashrc
-```
-
 ### 验证部署
 
 ```bash
@@ -281,11 +263,11 @@ systemctl status txsql | head -3
 ss -tlnp | grep 3306
 
 # 3. 查看版本和 socket
-/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
+mysql -u root -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
 # → 8.0.30-txsql | /run/txsql/mysql.sock
 
 # 4. 读写测试
-/usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock -e "
+mysql -u root -S /run/txsql/mysql.sock -e "
   CREATE DATABASE IF NOT EXISTS test_txsql;
   USE test_txsql;
   CREATE TABLE t (id INT, msg VARCHAR(50));

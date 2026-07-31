@@ -537,6 +537,24 @@ EOF
 }
 
 # ══════════════════════════════════════════════════════════════════════════
+# Phase: PATH setup — make mysql command available system-wide
+# ══════════════════════════════════════════════════════════════════════════
+
+run_setup_path() {
+    log_step "Setting up system PATH..."
+    cat > /etc/profile.d/txsql.sh << EOF
+# TXSQL — system-wide PATH
+export PATH="${TXSQL_BASEDIR}/bin:\$PATH"
+EOF
+    chmod 0644 /etc/profile.d/txsql.sh
+    # Effective immediately for current shell
+    source /etc/profile.d/txsql.sh
+    export PATH="${TXSQL_BASEDIR}/bin:$PATH"
+    log_info "PATH configured — mysql command available system-wide"
+    log_info "Source: /etc/profile.d/txsql.sh"
+}
+
+# ══════════════════════════════════════════════════════════════════════════
 # Phase: Credentials
 # ══════════════════════════════════════════════════════════════════════════
 
@@ -637,6 +655,7 @@ main() {
     run_phase "CONFIG"           run_config
     run_phase "INIT_DB"          run_init_db
     run_phase "SERVICE"          run_service
+    run_phase "SETUP_PATH"       run_setup_path
     run_phase "VERIFY"           run_verify
 
     echo ""

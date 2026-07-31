@@ -1,119 +1,94 @@
 # TXSQL 安装指南
 
-> **最新版本**: v8.0.30-1.0.0 | **支持平台**: CentOS 7.9 x86_64
+> **最新版本**: v8.0.30-2.0.1 | **支持平台**: CentOS 7.9 x86_64、openEuler 22.03 LTS-SP3 x86_64
 > **GitHub**: https://github.com/Bren-L/TXSQL-deploy
-
----
-
-## 部署流程
-
-```
-Step 1: 下载并解压（从 GitHub Release 获取离线包）
-Step 2: 安装部署（一条命令，完全离线、无人值守）
-```
 
 ---
 
 ## 前置依赖
 
-CentOS 7 minimal 已内置 `curl`、`tar`、`sudo`，**无需安装任何额外依赖**。
+**CentOS 7.9** minimal 已内置 `curl`、`tar`、`sudo`，无需额外安装。
+
+**openEuler 22.03** minimal 可能缺少 `tar`，先安装：
 
 ```bash
-# 确认依赖就绪（三个命令都应该存在）
-which curl tar sudo
+dnf install -y tar curl sudo
 ```
 
 ---
 
-## 方式一：一键自动部署
+## 部署流程（两台平台通用）
 
-在目标 CentOS 7.9 机器上以 root 执行：
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Bren-L/TXSQL-deploy/main/installer/install-remote.sh | sudo bash
 ```
-
-脚本自动完成下载解压和安装部署，无需手动操作。
+Step 1: 下载并解压（从 GitHub Release 获取离线包）
+Step 2: bash install.sh </dev/null（一条命令，完全离线、无人值守）
+Step 3: 安装完后 PATH 已自动配置，直接用
+```
 
 ---
 
-## 方式二：手动两步部署（推荐，清晰可控）
+## 方式一：直接下载安装
 
-### Step 1 — 下载并解压
-
-从 [GitHub Release](https://github.com/Bren-L/TXSQL-deploy/releases) 下载离线包并解压：
+以 **root** 用户执行：
 
 ```bash
-# 下载（自动重试 3 次）→ 校验成功 → 解压 → 删除安装包 → 进入目录
-curl -fSL --retry 3 -# -o txsql.tar.gz \
-  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz \
-  && tar xzf txsql.tar.gz \
-  && rm -f txsql.tar.gz \
-  && cd txsql-offline-8.0.30-1.0.0-centos7.9-x86_64
-```
-
-> 各参数说明：`-#` 显示下载进度条、`--retry 3` 自动重试、`&&` 保证下载失败不会解压残缺文件。
->
-> ⚠️ 国内访问 GitHub 可能不稳定，如遇 `TCP connection reset` 可设置代理后重试：
-> ```bash
-> export https_proxy=http://<代理IP>:<端口>
-> ```
-> 或使用[方式三](#方式三离线环境目标机器无网络)离线传输。
-
-### Step 2 — 安装部署
-
-```bash
-sudo bash install.sh
-```
-
-安装过程完全离线、零交互。完成后 TXSQL 已通过 systemd 启动运行。
-
----
-
-## 方式三：离线环境（目标机器无网络）
-
-在可联网机器上做 Step 1，然后把解压后的目录传到目标机器，再执行 Step 2。
-
-```bash
-# === 可联网机器 ===
-
 # Step 1: 下载并解压
 curl -fSL --retry 3 -# -o txsql.tar.gz \
-  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-1.0.0/txsql-offline-8.0.30-1.0.0-centos7.9-x86_64.tar.gz \
+  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz \
   && tar xzf txsql.tar.gz \
-  && rm -f txsql.tar.gz
+  && rm -f txsql.tar.gz \
+  && cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
 
-# 传输解压后的目录到目标机器
-scp -r txsql-offline-*/ root@<目标机器IP>:/tmp/
+# Step 2: 安装
+bash install.sh </dev/null
+```
 
+> openEuler 用户请将 URL 中的 `centos7.9-x86_64` 替换为 `openeuler22.03-x86_64`。
 
-# === 目标机器（离线） ===
+---
 
-# Step 2: 安装部署（tar 和 bash 已内置，无需额外依赖）
-cd /tmp/txsql-offline-*/
-sudo bash install.sh
+## 方式二：本地下载后上传
+
+如果目标机器无法访问 GitHub，先在本地下载再上传。
+
+**Step 1 — 本地下载**
+
+浏览器访问 GitHub Release 页面下载对应平台的 `.tar.gz` 包：
+- CentOS 7.9: `txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz`
+- openEuler 22.03: `txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz`
+
+**Step 2 — 上传到目标机器**
+
+使用 Xshell、MobaXterm 等工具上传到 `/root/` 目录。
+
+**Step 3 — 解压并安装**
+
+```bash
+# 以 root 执行
+tar xzf /root/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
+cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
+bash install.sh </dev/null
 ```
 
 ---
 
 ## 验证安装
 
-部署完成后，依次检查以下 5 项即可确认成功：
+部署完成后，验证以下 5 项：
 
 ```bash
 # 1. 服务正在运行
-sudo systemctl status txsql | head -3
+systemctl status txsql | head -3
 
 # 2. 端口已监听
-sudo ss -tlnp | grep 3306
+ss -tlnp | grep 3306
 
-# 3. 查看 TXSQL 版本
-sudo cat /root/.txsql_credentials   # 先取密码
-mysql -u root -p -S /run/txsql/mysql.sock -e "SELECT VERSION();"
-# → 8.0.30-txsql
+# 3. 查看版本和 socket
+mysql -u root -S /run/txsql/mysql.sock -e "SELECT VERSION(), @@socket;"
+# → 8.0.30-txsql | /run/txsql/mysql.sock
 
 # 4. 读写测试
-mysql -u root -p -S /run/txsql/mysql.sock -e "
+mysql -u root -S /run/txsql/mysql.sock -e "
   CREATE DATABASE IF NOT EXISTS test_txsql;
   USE test_txsql;
   CREATE TABLE t (id INT, msg VARCHAR(50));
@@ -122,8 +97,8 @@ mysql -u root -p -S /run/txsql/mysql.sock -e "
   DROP DATABASE test_txsql;
 "
 
-# 5. systemd 自启动已启用
-sudo systemctl is-enabled txsql
+# 5. 自启动已启用
+systemctl is-enabled txsql
 # → enabled
 ```
 
@@ -142,13 +117,13 @@ sudo systemctl is-enabled txsql
 ## 自定义选项
 
 ```bash
-sudo bash install.sh \
+bash install.sh \
   --port 3307 \
   --data-dir /data/txsql \
   --log-dir /var/log/txsql
 ```
 
-所有选项通过命令行参数传入，安装过程不会弹出任何交互提示。
+所有选项通过命令行参数传入，安装过程零交互。
 
 ---
 
@@ -158,21 +133,18 @@ sudo bash install.sh \
 |------|------|
 | 服务端 | `/usr/lib/txsql/current/bin/mysqld` |
 | 客户端 | `/usr/lib/txsql/current/bin/mysql*` |
-| 私有库 | `/usr/lib/txsql/current/lib/private/` |
 | 配置文件 | `/etc/txsql/my.cnf` |
 | 数据目录 | `/var/lib/txsql/data` |
 | 日志 | `/var/log/txsql/` |
 | 运行文件 | `/run/txsql/` |
 | systemd 服务 | `/usr/lib/systemd/system/txsql.service` |
-| root 凭据 | `/root/.txsql_credentials` |
-
----
+| 环境变量 | `/etc/profile.d/txsql.sh`（PATH 自动配置） |
 
 ## 卸载
 
 ```bash
-sudo bash uninstall.sh           # 保留数据、日志、配置（默认）
-sudo bash uninstall.sh --purge   # 完全清除（含数据）
+bash uninstall.sh           # 保留数据、日志、配置
+bash uninstall.sh --purge   # 完全清除（含数据）
 ```
 
 卸载后重新安装会自动检测已有数据，不会重复初始化。
@@ -183,10 +155,10 @@ sudo bash uninstall.sh --purge   # 完全清除（含数据）
 
 | 问题 | 检查 |
 |------|------|
-| 端口被占用 | `sudo ss -tlnp \| grep 3306` |
-| 服务启动失败 | `sudo journalctl -u txsql -f` |
+| 端口被占用 | `ss -tlnp \| grep 3306` |
+| 服务启动失败 | `journalctl -u txsql -f` |
 | 连接被拒 | `ls -la /run/txsql/mysql.sock` |
-| SELinux 拦截 | `sudo ausearch -m avc -ts recent` |
+| SELinux 拦截 | `ausearch -m avc -ts recent` |
 | RPM 冲突 | `rpm -qa \| grep -i mysql`（先卸载旧版） |
 
-详细内容见 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)。
+详见 [TROUBLESHOOTING.md](TROUBLESHOOTING.md)。

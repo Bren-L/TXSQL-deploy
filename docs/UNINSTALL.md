@@ -1,71 +1,72 @@
-# Uninstall Guide
-
-> **Status**: SPECIFICATION — uninstaller not yet built.
-> **Date**: 2026-07-22
+# 卸载指南
 
 ---
 
-## Default Uninstall (Preserves Data)
+## 默认卸载（保留数据）
 
 ```bash
-sudo ./uninstall.sh
+bash uninstall.sh
 ```
 
-This removes:
-- TXSQL RPM packages
-- Systemd service
-- Local repository configuration
-- Temporary installation files
+移除内容：
+- TXSQL RPM 包（CentOS）或二进制文件（openEuler）
+- systemd 服务
+- 本地 yum/dnf 仓库配置
+- 运行目录 `/run/txsql`
 
-This preserves:
-- `/var/lib/txsql/data` — all databases
-- `/etc/txsql/` — configuration
-- `/var/log/txsql/` — logs
-- `/root/.txsql_credentials` — credentials
+保留内容：
+- `/var/lib/txsql/data` — 所有数据库
+- `/etc/txsql/` — 配置文件
+- `/var/log/txsql/` — 日志
 
 ---
 
-## Purge Uninstall (Removes Data)
+## 完全清除
 
 ```bash
-sudo ./uninstall.sh --purge-data
+bash uninstall.sh --purge
 ```
 
-This additionally removes:
-- `/var/lib/txsql/data` — all databases (**IRREVERSIBLE**)
-- `/var/log/txsql/` — all logs
-- `/root/.txsql_credentials` — credentials
+额外移除：
+- `/var/lib/txsql/data` — 所有数据库（**不可恢复**）
+- `/var/log/txsql/` — 所有日志
+- `/etc/txsql/` — 配置文件
+- `/root/.txsql_credentials` — 凭据文件
 
-`--purge-data` does not prompt for confirmation if run non-interactively.
-It validates all paths before deletion (prevents deleting `/`, `/var`, etc.)
-
----
-
-## Reinstall After Uninstall
-
-Default uninstall preserves data, so re-running `install.sh` will:
-1. Detect existing data directory
-2. Skip database initialization
-3. Reinstall packages and service
-4. Use existing configuration (if compatible)
+`--purge` 不会弹出确认提示，删除前会校验路径防止误删 `/`、`/var` 等系统目录。
 
 ---
 
-## Manual Cleanup
+## 卸载后重新安装
 
-If the uninstaller is not available:
+默认卸载保留了数据，重新运行 `install.sh` 会：
+1. 检测已有数据目录（auto.cnf 存在）
+2. 跳过数据库初始化
+3. 重新安装包和服务
+4. 沿用已有配置
+
+---
+
+## 手动清理
+
+如果无卸载脚本：
 
 ```bash
-# Stop service
+# 停止并禁用服务
 systemctl stop txsql
 systemctl disable txsql
+rm -f /usr/lib/systemd/system/txsql.service
+systemctl daemon-reload
 
-# Remove packages
+# CentOS: 卸载 RPM 包
 rpm -e txsql-server txsql-client txsql-common
 
-# Remove repo config
+# openEuler: 删除二进制
+rm -rf /usr/lib/txsql/8.0.30 /usr/lib/txsql/current
+
+# 删除仓库配置
 rm -f /etc/yum.repos.d/txsql-offline.repo
 
-# Optional: remove data (CAREFUL!)
+# 可选：删除数据（注意备份！）
 # rm -rf /var/lib/txsql/data
 ```
