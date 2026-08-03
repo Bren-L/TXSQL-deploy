@@ -29,7 +29,9 @@ Step 3: 安装完后 PATH 已自动配置，直接用
 
 ## 方式一：直接下载安装
 
-以 **root** 用户执行：
+以 **root** 用户，在联网的目标机器上执行对应平台的命令：
+
+### CentOS 7.9 x86_64
 
 ```bash
 # Step 1: 下载并解压
@@ -43,23 +45,38 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
 bash install.sh </dev/null
 ```
 
-> openEuler 用户请将 URL 中的 `centos7.9-x86_64` 替换为 `openeuler22.03-x86_64`。
+### openEuler 22.03 LTS-SP3 x86_64
+
+```bash
+# Step 1: 下载并解压
+curl -fSL --retry 3 -# -o txsql.tar.gz \
+  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz \
+  && tar xzf txsql.tar.gz \
+  && rm -f txsql.tar.gz \
+  && cd txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64
+
+# Step 2: 安装
+bash install.sh </dev/null
+```
 
 ---
 
 ## 方式二：本地下载后上传
 
-如果目标机器无法访问 GitHub，先在本地下载再上传。
+如果目标机器无法访问 GitHub，先在本地浏览器下载对应平台的离线包，再上传到目标机器。
+
+### CentOS 7.9 x86_64
 
 **Step 1 — 本地下载**
 
-浏览器访问 GitHub Release 页面下载对应平台的 `.tar.gz` 包：
-- CentOS 7.9: `txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz`
-- openEuler 22.03: `txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz`
+浏览器打开：
+```
+https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
+```
 
 **Step 2 — 上传到目标机器**
 
-使用 Xshell、MobaXterm 等工具上传到 `/root/` 目录。
+使用 Xshell、MobaXterm 等工具将 `txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz` 上传到目标机器的 `/root/` 目录。
 
 **Step 3 — 解压并安装**
 
@@ -67,6 +84,28 @@ bash install.sh </dev/null
 # 以 root 执行
 tar xzf /root/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
 cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
+bash install.sh </dev/null
+```
+
+### openEuler 22.03 LTS-SP3 x86_64
+
+**Step 1 — 本地下载**
+
+浏览器打开：
+```
+https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz
+```
+
+**Step 2 — 上传到目标机器**
+
+使用 Xshell、MobaXterm 等工具将 `txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz` 上传到目标机器的 `/root/` 目录。
+
+**Step 3 — 解压并安装**
+
+```bash
+# 以 root 执行
+tar xzf /root/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz
+cd txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64
 bash install.sh </dev/null
 ```
 
