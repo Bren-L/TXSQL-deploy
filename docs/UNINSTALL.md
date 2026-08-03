@@ -13,6 +13,8 @@ bash uninstall.sh
 - systemd 服务
 - 本地 yum/dnf 仓库配置
 - 运行目录 `/run/txsql`
+- `/usr/local/bin/` 下的 TXSQL 软链接
+- `/etc/profile.d/txsql.sh`（PATH 配置）
 
 保留内容：
 - `/var/lib/txsql/data` — 所有数据库

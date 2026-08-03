@@ -6,11 +6,17 @@
 
 ### "mysql: command not found" / "mysql: 未找到命令"
 
-**原因**: PATH 未生效。
+**原因**: `/usr/local/bin` 软链接或环境变量未生效（极少数情况）。
 
 **解决**:
 ```bash
+# 安装脚本已自动在 /usr/local/bin 创建软链接，重启终端后直接可用
+which mysql                    # 应输出 /usr/local/bin/mysql
+ls -la /usr/local/bin/mysql    # → /usr/lib/txsql/current/bin/mysql
+
+# 特殊情况下仍不可用，手动 source
 source /etc/profile.d/txsql.sh
+
 # 或直接用完整路径
 /usr/lib/txsql/current/bin/mysql -u root -S /run/txsql/mysql.sock
 ```

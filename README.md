@@ -175,6 +175,27 @@ mysql -u root -S /run/txsql/mysql.sock -e "
 
 > 5 项全通过即为部署成功：服务 running ✅、端口 3306 ✅、版本 8.0.30-txsql ✅、读写正常 ✅、socket 路径正确 ✅。
 
+### 登录方式
+
+TXSQL 安装完成后 **root 用户无密码**（`--initialize-insecure`），可通过以下方式登录：
+
+```bash
+# 本地 socket 登录（推荐，无需密码）
+mysql -u root -S /run/txsql/mysql.sock
+
+# TCP 登录（本机 localhost）
+mysql -u root -h 127.0.0.1 -P 3306
+
+# 远程 TCP 登录（需先修改 my.cnf 中的 bind-address）
+mysql -u root -h <服务器IP> -P 3306
+```
+
+> **安全提示**：生产环境请在首次登录后立即设置 root 密码：
+> ```sql
+> ALTER USER 'root'@'localhost' IDENTIFIED BY '你的强密码';
+> FLUSH PRIVILEGES;
+> ```
+
 ### 卸载
 
 ```bash
@@ -278,6 +299,27 @@ mysql -u root -S /run/txsql/mysql.sock -e "
 ```
 
 > 5 项全通过即为部署成功：服务 running ✅、端口 3306 ✅、版本 8.0.30-txsql ✅、读写正常 ✅、socket 路径正确 ✅。
+
+### 登录方式
+
+TXSQL 安装完成后 **root 用户无密码**（`--initialize-insecure`），可通过以下方式登录：
+
+```bash
+# 本地 socket 登录（推荐，无需密码）
+mysql -u root -S /run/txsql/mysql.sock
+
+# TCP 登录（本机 localhost）
+mysql -u root -h 127.0.0.1 -P 3306
+
+# 远程 TCP 登录（需先修改 my.cnf 中的 bind-address）
+mysql -u root -h <服务器IP> -P 3306
+```
+
+> **安全提示**：生产环境请在首次登录后立即设置 root 密码：
+> ```sql
+> ALTER USER 'root'@'localhost' IDENTIFIED BY '你的强密码';
+> FLUSH PRIVILEGES;
+> ```
 
 ### 卸载
 
