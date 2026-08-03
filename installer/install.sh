@@ -169,7 +169,7 @@ run_precheck() {
     local mem_kb=$(grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}')
     if [[ -n "$mem_kb" ]] && [[ "$mem_kb" -lt 900000 ]]; then
         log_error "Insufficient memory: ${mem_kb}KB < 900MB"
-        ((failed++))
+        failed=$((failed + 1))
     else
         log_info "Memory: $(( mem_kb / 1024 )) MB"
     fi
@@ -179,7 +179,7 @@ run_precheck() {
     local avail_kb=$(df "$data_parent" 2>/dev/null | awk 'NR==2 {print $4}')
     if [[ -n "$avail_kb" ]] && [[ "$avail_kb" -lt 2000000 ]]; then
         log_error "Insufficient disk: $(( avail_kb / 1024 )) MB < 2000 MB"
-        ((failed++))
+        failed=$((failed + 1))
     else
         log_info "Disk free: $(( avail_kb / 1024 )) MB"
     fi
@@ -189,7 +189,7 @@ run_precheck() {
         if ss -tlnp 2>/dev/null | grep -q ":${TXSQL_PORT} "; then
             log_error "Port ${TXSQL_PORT} is already in use:"
             ss -tlnp 2>/dev/null | grep ":${TXSQL_PORT} " || true
-            ((failed++))
+            failed=$((failed + 1))
         fi
     fi
     if [[ $failed -eq 0 ]]; then
@@ -199,7 +199,7 @@ run_precheck() {
     # Existing MySQL/MariaDB process
     if pgrep -x mysqld &>/dev/null || pgrep -x mariadbd &>/dev/null; then
         log_error "Existing MySQL/MariaDB process detected"
-        ((failed++))
+        failed=$((failed + 1))
     fi
 
     # Existing data (not an error, just informational)
@@ -526,7 +526,7 @@ EOF
     # Wait for socket
     local waited=0
     while [[ ! -S "$TXSQL_SOCKET" ]] && [[ $waited -lt 60 ]]; do
-        sleep 1; ((waited++))
+        sleep 1; waited=$((waited + 1))
     done
     if [[ ! -S "$TXSQL_SOCKET" ]]; then
         log_fatal "Socket did not appear after 60s: $TXSQL_SOCKET"
@@ -674,6 +674,7 @@ main() {
     run_phase "INIT_DB"          run_init_db
     run_phase "SERVICE"          run_service
     run_phase "SETUP_PATH"       run_setup_path
+    run_phase "CREDENTIALS"      run_credentials
     run_phase "VERIFY"           run_verify
 
     echo ""
@@ -688,6 +689,7 @@ main() {
     echo "  Config:   ${TXSQL_CONFIG}"
     echo ""
     echo "  Connect:  mysql -u root -S ${TXSQL_SOCKET}"
+    echo "  Password: cat ${TXSQL_CREDENTIALS}"
     echo "  Status:   systemctl status txsql"
     echo ""
     exit 0

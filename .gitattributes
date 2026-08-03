@@ -1,0 +1,18 @@
+# Shell scripts must always use LF line endings for Linux compatibility
+*.sh text eol=lf
+
+# Other text files
+*.md text eol=lf
+*.py text eol=lf
+Makefile text eol=lf
+VERSION text eol=lf
+SOURCE_COMMIT text eol=lf
+PLATFORM text eol=lf
+MANIFEST text eol=lf
+BUILDINFO text eol=lf
+SOURCE_INFO text eol=lf
+
+# Binary
+*.tar.gz binary
+*.rpm binary
+*.png binary
