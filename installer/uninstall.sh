@@ -93,8 +93,16 @@ else
     log_info "Preserved: /root/.txsql_credentials"
 fi
 
-# 9. Remove PATH config
+# 9. Remove PATH config and symlinks
 rm -f /etc/profile.d/txsql.sh 2>/dev/null && log_info "PATH config removed" || true
+# Remove /usr/local/bin symlinks that point to TXSQL
+for link in /usr/local/bin/*; do
+    if [[ -L "$link" ]] && [[ "$(readlink "$link")" == /usr/lib/txsql/* ]]; then
+        rm -f "$link"
+    fi
+done 2>/dev/null || true
+log_info "Symlinks cleaned from /usr/local/bin/"
+unset TXSQL_BASEDIR 2>/dev/null || true
 
 # 10. User/group removal skipped — running as root
 log_info "Running as root — no user/group to remove"
@@ -104,9 +112,6 @@ echo "============================================"
 echo "  TXSQL Uninstall Complete"
 echo "============================================"
 echo "Mode: $($PURGE && echo 'PURGE' || echo 'SAFE')"
-echo ""
-echo "Tip: Run 'hash -r' or start a new shell"
-echo "     to clear cached PATH to mysql."
 $PURGE || {
     echo ""
     echo "Data, logs, and config were preserved."

@@ -542,16 +542,34 @@ EOF
 
 run_setup_path() {
     log_step "Setting up system PATH..."
+
+    # 1. Write /etc/profile.d/txsql.sh for new login shells
     cat > /etc/profile.d/txsql.sh << EOF
 # TXSQL — system-wide PATH
 export PATH="${TXSQL_BASEDIR}/bin:\$PATH"
 EOF
     chmod 0644 /etc/profile.d/txsql.sh
-    # Effective immediately for current shell
+
+    # 2. Create symlinks in /usr/local/bin — effective immediately
+    #    (no need to source anything, /usr/local/bin is in the default PATH)
+    log_info "Creating symlinks in /usr/local/bin/..."
+    local count=0
+    for bin in "$TXSQL_BASEDIR"/bin/*; do
+        local name="${bin##*/}"
+        # Skip internal / test binaries
+        case "$name" in
+            comp_err|ibd2sdi|innochecksum|lz4_decompress|zlib_decompress|\
+            mysql_ssl_rsa_setup|mysql_tzinfo_to_sql|resolve_stack_dump|resolveip)
+                continue ;;
+        esac
+        ln -sfn "$bin" "/usr/local/bin/$name"
+        count=$((count + 1))
+    done
+    log_info "$count symlinks created — \`mysql\` available immediately"
+
+    # 3. Apply to current shell (for install.sh's own verify step)
     source /etc/profile.d/txsql.sh
     export PATH="${TXSQL_BASEDIR}/bin:$PATH"
-    log_info "PATH configured — mysql command available system-wide"
-    log_info "Source: /etc/profile.d/txsql.sh"
 }
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -669,12 +687,8 @@ main() {
     echo "  Data:     ${TXSQL_DATADIR}"
     echo "  Config:   ${TXSQL_CONFIG}"
     echo ""
-    echo "  --- Make 'mysql' available in this terminal ---"
-    echo ""
-    echo "  Run:      source /etc/profile.d/txsql.sh"
-    echo "  Then:     mysql -u root -S ${TXSQL_SOCKET}"
-    echo ""
-    echo "  (New terminals pick up \`mysql\` automatically)"
+    echo "  Connect:  mysql -u root -S ${TXSQL_SOCKET}"
+    echo "  Status:   systemctl status txsql"
     echo ""
     exit 0
 }

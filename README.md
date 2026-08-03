@@ -116,9 +116,6 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
 
 # Step 2: 安装
 bash install.sh </dev/null
-
-# Step 3: 让 mysql 命令在当前终端生效
-source /etc/profile.d/txsql.sh
 ```
 
 ### 方式二：本地下载后上传
@@ -223,9 +220,6 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
 
 # Step 2: 安装
 bash install.sh </dev/null
-
-# Step 3: 让 mysql 命令在当前终端生效
-source /etc/profile.d/txsql.sh
 ```
 
 ### 方式二：本地下载后上传
