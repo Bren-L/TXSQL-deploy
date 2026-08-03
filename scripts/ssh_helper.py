@@ -15,6 +15,7 @@ import os
 VMS = {
     "centos":    {"host": "192.168.44.153", "user": "root", "password": "123"},
     "openeuler": {"host": "192.168.44.154", "user": "root", "password": "Lt2097619334"},
+    "kylin":     {"host": "192.168.44.157", "user": "root", "password": "Lt314147"},
 }
 
 def ssh_cmd(vm, command, timeout=120):

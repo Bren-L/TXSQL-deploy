@@ -1,6 +1,6 @@
 # Platform Support Matrix
 
-> **Last Updated**: 2026-07-31
+> **Last Updated**: 2026-08-03
 > **Principle**: SUPPORTED only after full offline acceptance on native hardware.
 
 ---
@@ -11,6 +11,7 @@
 |----------|------|----------|------|
 | CentOS 7.9 x86_64 | x86_64 | RPM (yum local repo) | ✅ **RELEASE** |
 | openEuler 22.03 LTS-SP3 x86_64 | x86_64 | Binary | ✅ **RELEASE** |
+| Kylin V11 (Swan25) x86_64 | x86_64 | Binary | ✅ **RELEASE** |
 | CentOS 7.8 x86_64 | x86_64 | RPM | ⏳ 待开发 |
 | TencentOS Server 2.4 x86_64 | x86_64 | RPM | ⏳ 待开发 |
 | TencentOS Server 3.1 x86_64 | x86_64 | DNF | ⏳ 待开发 |
@@ -42,6 +43,18 @@
 | OpenSSL | 1.1.1wa (system, SM3/SM4 built-in) |
 | 部署方式 | Binary copy |
 | 构建时间 | ~20 min |
+| 验收测试 | 全部 PASSED |
+
+### 银河麒麟 V11 (Swan25) x86_64
+
+| 项目 | 详情 |
+|------|------|
+| TXSQL 版本 | 8.0.30-txsql |
+| GCC | 12.3.1 (system) |
+| glibc | 2.38 |
+| OpenSSL | 3.0.12 (system, SM3/SM4 built-in) |
+| 部署方式 | Binary copy |
+| 构建时间 | ~33 min (make -j4, with swap) |
 | 验收测试 | 全部 PASSED |
 
 ---

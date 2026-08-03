@@ -28,6 +28,7 @@
 | TencentOS Server 2.4 | x86_64 | ⏳ 待开发 | — |
 | TencentOS Server 3.1 | x86_64 | ⏳ 待开发 | — |
 | 银河麒麟 V10 (SP TBD) | aarch64 | ⏳ 待开发 | — |
+| 银河麒麟 V11 (Swan25) | x86_64 | ✅ **RELEASE** | 二进制 |
 
 详见 [docs/PLATFORM_MATRIX.md](docs/PLATFORM_MATRIX.md)
 
@@ -35,13 +36,13 @@
 
 ## 版本信息
 
-| 项目 | CentOS 7.9 | openEuler 22.03 |
-|------|------------|-----------------|
-| TXSQL 版本 | 8.0.30-txsql | 8.0.30-txsql |
-| 编译器 | GCC 10.2.1 | GCC 10.3.1 |
-| glibc | 2.17 | 2.34 |
-| OpenSSL | 3.4.1 (bundled) | 1.1.1wa (system) |
-| 部署方式 | RPM (yum) | 二进制 copy |
+| 项目 | CentOS 7.9 | openEuler 22.03 | Kylin V11 |
+|------|------------|-----------------|-----------|
+| TXSQL 版本 | 8.0.30-txsql | 8.0.30-txsql | 8.0.30-txsql |
+| 编译器 | GCC 10.2.1 | GCC 10.3.1 | GCC 12.3.1 |
+| glibc | 2.17 | 2.34 | 2.38 |
+| OpenSSL | 3.4.1 (bundled) | 1.1.1wa (system) | 3.0.12 (system) |
+| 部署方式 | RPM (yum) | 二进制 copy | 二进制 copy |
 
 ---
 
@@ -220,6 +221,51 @@ bash install.sh </dev/null
 
 ---
 
+## 🚀 快速开始 — 银河麒麟 V11 (Swan25) x86_64
+
+> 最新版本: [v8.0.30-2.0.0](https://github.com/Bren-L/TXSQL-deploy/releases)
+
+### 前置依赖
+
+麒麟 V11 已内置 `tar`、`curl`、`sudo`，无需额外安装。
+
+### 环境准备
+
+安装过程以 **root 用户**直接执行，无需创建专用用户：
+
+```bash
+whoami  # 应输出 root
+```
+
+### 方式一：直接下载安装
+
+```bash
+curl -fSL --retry 3 -# -o txsql.tar.gz \
+  https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-kylinv11-x86_64.tar.gz \
+  && tar xzf txsql.tar.gz \
+  && rm -f txsql.tar.gz \
+  && cd txsql-offline-8.0.30-2.0.0-kylinv11-x86_64
+
+bash install.sh </dev/null
+```
+
+### 方式二：本地下载后上传
+
+浏览器下载：
+```
+https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-offline-8.0.30-2.0.0-kylinv11-x86_64.tar.gz
+```
+
+上传到虚拟机后：
+
+```bash
+tar xzf /root/txsql-offline-8.0.30-2.0.0-kylinv11-x86_64.tar.gz
+cd txsql-offline-8.0.30-2.0.0-kylinv11-x86_64
+bash install.sh </dev/null
+```
+
+---
+
 ## 验证部署
 
 部署完成后，验证以下 5 项（**两平台通用**）：
@@ -343,6 +389,7 @@ make build-all
 |--------|---------|
 | `txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz` | `2d7b348508bf90ea44e1d1e65d46d07b27dcb66ba3dad38a86a79eb4bfe62cb2` |
 | `txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz` | `dbef9cabb38bfcef077fd8bbd41dc469b559a65ab8f9e6b9b1dc9c1620642482` |
+| `txsql-offline-8.0.30-2.0.0-kylinv11-x86_64.tar.gz` | `98f559e2eca1f4b7462b2d8a805d506d4737f6c9386148f61f4950a37c7d401c` |
 
 ---
 
