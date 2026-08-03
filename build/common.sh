@@ -76,7 +76,7 @@ parse_common_args() {
     done
 
     # Defaults
-    PLATFORM="${PLATFORM:-centos-7.8-x86_64}"
+    PLATFORM="${PLATFORM:-centos-7.9-x86_64}"
     BUILD_DIR="${BUILD_DIR:-${PROJECT_ROOT}/build/tmp/${PLATFORM}}"
     OUTPUT_DIR="${OUTPUT_DIR:-${PROJECT_ROOT}/dist}"
 }

@@ -1,1 +1,1 @@
-Fingerprints not collected — target system not available. See docs/PLATFORM_FINGERPRINTS.md for collection protocol.
+centos-7.9-x86_64 fingerprints built on 192.168.44.151

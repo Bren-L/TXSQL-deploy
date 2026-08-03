@@ -15,7 +15,7 @@ BUILD_DIR    ?= $(CURDIR)/build/tmp
 
 # ── Platform validation ─────────────────────────────────────────────────────
 
-VALID_PLATFORMS := centos-7.8-x86_64 centos-7.9-x86_64 tencentos-2.4-x86_64 tencentos-3.1-x86_64 kylin-v10-aarch64
+VALID_PLATFORMS := centos-7.9-x86_64 openeuler-22.03-x86_64 kylin-v11-x86_64
 
 define validate_platform
 	@if ! echo "$(VALID_PLATFORMS)" | grep -qw "$(PLATFORM)"; then \

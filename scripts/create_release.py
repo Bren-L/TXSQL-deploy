@@ -15,6 +15,7 @@ DIST = os.path.join(BASE, "dist")
 FILES = [
     "txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz",
     "txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz",
+    "txsql-offline-8.0.30-2.0.0-kylinv11-x86_64.tar.gz",
 ]
 
 BODY = """## v8.0.30-2.0.0 (2026-07-30)

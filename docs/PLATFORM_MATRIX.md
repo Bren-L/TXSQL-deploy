@@ -12,10 +12,6 @@
 | CentOS 7.9 x86_64 | x86_64 | RPM (yum local repo) | ✅ **RELEASE** |
 | openEuler 22.03 LTS-SP3 x86_64 | x86_64 | Binary | ✅ **RELEASE** |
 | Kylin V11 (Swan25) x86_64 | x86_64 | Binary | ✅ **RELEASE** |
-| CentOS 7.8 x86_64 | x86_64 | RPM | ⏳ 待开发 |
-| TencentOS Server 2.4 x86_64 | x86_64 | RPM | ⏳ 待开发 |
-| TencentOS Server 3.1 x86_64 | x86_64 | DNF | ⏳ 待开发 |
-| Kylin V10 aarch64 | aarch64 | TBD | ⏳ 待开发 |
 
 ---
 

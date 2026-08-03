@@ -24,10 +24,6 @@
 |------|------|------|----------|
 | CentOS 7.9 | x86_64 | ✅ **RELEASE** | RPM (yum local repo) |
 | openEuler 22.03 LTS-SP3 | x86_64 | ✅ **RELEASE** | 二进制 |
-| CentOS 7.8 | x86_64 | ⏳ 待开发 | — |
-| TencentOS Server 2.4 | x86_64 | ⏳ 待开发 | — |
-| TencentOS Server 3.1 | x86_64 | ⏳ 待开发 | — |
-| 银河麒麟 V10 (SP TBD) | aarch64 | ⏳ 待开发 | — |
 | 银河麒麟 V11 (Swan25) | x86_64 | ✅ **RELEASE** | 二进制 |
 
 详见 [docs/PLATFORM_MATRIX.md](docs/PLATFORM_MATRIX.md)
@@ -337,10 +333,8 @@ TXSQL-Packages/
 ├── Makefile
 ├── VERSION / SOURCE_COMMIT
 ├── installer/              # 安装器脚本
-│   ├── install.sh          # 主安装入口（自包含）
-│   ├── uninstall.sh        # 卸载脚本
-│   ├── install-remote.sh   # 远程一键安装
-│   └── lib/                # 模块化安装器库
+│   ├── install.sh          # 主安装入口（自包含，零依赖）
+│   └── uninstall.sh        # 卸载脚本
 ├── build/                  # 构建脚本
 ├── config/                 # MySQL 配置模板
 ├── systemd/                # txsql.service
@@ -372,7 +366,6 @@ make build-all
 | [INSTALL.md](docs/INSTALL.md) | 安装指南 |
 | [UNINSTALL.md](docs/UNINSTALL.md) | 卸载指南 |
 | [TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) | 故障排除 |
-| [DECISIONS.md](docs/DECISIONS.md) | 关键设计决策记录 |
 
 ---
 
