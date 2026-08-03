@@ -668,8 +668,13 @@ main() {
     echo "  Socket:   ${TXSQL_SOCKET}"
     echo "  Data:     ${TXSQL_DATADIR}"
     echo "  Config:   ${TXSQL_CONFIG}"
-    echo "  Connect:  mysql -u root -S ${TXSQL_SOCKET}"
-    echo "  Status:   sudo systemctl status txsql"
+    echo ""
+    echo "  --- Make 'mysql' available in this terminal ---"
+    echo ""
+    echo "  Run:      source /etc/profile.d/txsql.sh"
+    echo "  Then:     mysql -u root -S ${TXSQL_SOCKET}"
+    echo ""
+    echo "  (New terminals pick up \`mysql\` automatically)"
     echo ""
     exit 0
 }

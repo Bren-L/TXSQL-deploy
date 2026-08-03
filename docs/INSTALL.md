@@ -43,6 +43,11 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
 
 # Step 2: 安装
 bash install.sh </dev/null
+
+# Step 3: 让 mysql 命令生效（当前终端）
+source /etc/profile.d/txsql.sh
+
+# 新终端会自动加载，无需手动 source
 ```
 
 ### openEuler 22.03 LTS-SP3 x86_64
@@ -57,6 +62,9 @@ curl -fSL --retry 3 -# -o txsql.tar.gz \
 
 # Step 2: 安装
 bash install.sh </dev/null
+
+# Step 3: 让 mysql 命令生效（当前终端）
+source /etc/profile.d/txsql.sh
 ```
 
 ---
@@ -85,6 +93,9 @@ https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-off
 tar xzf /root/txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz
 cd txsql-offline-8.0.30-2.0.0-centos7.9-x86_64
 bash install.sh </dev/null
+
+# 让 mysql 命令在当前终端生效
+source /etc/profile.d/txsql.sh
 ```
 
 ### openEuler 22.03 LTS-SP3 x86_64
@@ -107,6 +118,9 @@ https://github.com/Bren-L/TXSQL-deploy/releases/download/v8.0.30-2.0.0/txsql-off
 tar xzf /root/txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz
 cd txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64
 bash install.sh </dev/null
+
+# 让 mysql 命令在当前终端生效
+source /etc/profile.d/txsql.sh
 ```
 
 ---
