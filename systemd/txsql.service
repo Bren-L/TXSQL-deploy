@@ -5,8 +5,8 @@ After=network.target
 
 [Service]
 Type=forking
-User=txsql
-Group=txsql
+User=root
+Group=root
 PIDFile=/run/txsql/mysqld.pid
 ExecStart=/usr/lib/txsql/current/bin/mysqld --defaults-file=/etc/txsql/my.cnf --daemonize --pid-file=/run/txsql/mysqld.pid
 ExecStop=/usr/lib/txsql/current/bin/mysqladmin --defaults-file=/etc/txsql/my.cnf -u root -S /run/txsql/mysql.sock shutdown

@@ -347,8 +347,8 @@ make build-all
 
 | 包文件 | SHA-256 |
 |--------|---------|
-| `txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz` | `c012dbe6facce783c20bb1ae3e8a01ac3cc2c3d02ac71a43e875c0c1ce2f5ea4` |
-| `txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz` | `e26327582ae1066e142110fc97e1e7187391025f54a89a3873865e30f4076480` |
+| `txsql-offline-8.0.30-2.0.0-centos7.9-x86_64.tar.gz` | `2d7b348508bf90ea44e1d1e65d46d07b27dcb66ba3dad38a86a79eb4bfe62cb2` |
+| `txsql-offline-8.0.30-2.0.0-openeuler22.03-x86_64.tar.gz` | `dbef9cabb38bfcef077fd8bbd41dc469b559a65ab8f9e6b9b1dc9c1620642482` |
 
 ---
 

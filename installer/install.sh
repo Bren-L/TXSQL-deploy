@@ -584,42 +584,22 @@ run_credentials() {
         return 0
     fi
 
-    # Generate random root password
-    local root_pw=$(openssl rand -base64 24 2>/dev/null || \
-                    date +%s | sha256sum | base64 | head -c 24 2>/dev/null || \
-                    echo "Txsql-$(date +%s)-$(shuf -i 1000-9999 -n 1)")
-
-    # Try with temp password first (if --initialize was used)
-    local temp_pw=""
-    if [[ -f /tmp/txsql-init-temp-pw ]]; then
-        temp_pw=$(cat /tmp/txsql-init-temp-pw 2>/dev/null || true)
-    fi
-
-    # Set root password
     local MYSQL_BIN="${TXSQL_BASEDIR}/bin/mysql"
 
-    if [[ -n "$temp_pw" ]]; then
-        if "$MYSQL_BIN" -u root -p"$temp_pw" -S "$TXSQL_SOCKET" --connect-expired-password \
-           -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$root_pw';" 2>/dev/null; then
-            log_info "Root password set (via temp password)"
-        else
-            log_warn "Could not set password via temp password — trying without"
-        fi
+    # Verify root can connect without password (--initialize-insecure mode)
+    if "$MYSQL_BIN" -u root -S "$TXSQL_SOCKET" -e "SELECT 1" &>/dev/null 2>&1; then
+        log_info "Root no-password access: OK"
+    else
+        log_warn "Root no-password access check failed — may need manual intervention"
     fi
 
-    # Try without password (--initialize-insecure mode)
-    if ! "$MYSQL_BIN" -u root -p"$root_pw" -S "$TXSQL_SOCKET" -e "SELECT 1" &>/dev/null 2>&1; then
-        "$MYSQL_BIN" -u root -S "$TXSQL_SOCKET" \
-               -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$root_pw';" 2>/dev/null || true
-        log_info "Root password set (was empty)"
-    fi
-
-    # Save credentials
+    # Save credentials note (root has no password)
     mkdir -p "$(dirname "$TXSQL_CREDENTIALS")" 2>/dev/null || true
     cat > "$TXSQL_CREDENTIALS" << EOF
-# TXSQL Root Credentials — keep secure!
+# TXSQL Root Credentials
 # Generated: $(date)
-TXSQL_ROOT_PASSWORD=$root_pw
+# Root has NO password (--initialize-insecure).
+# Connect: mysql -u root -S ${TXSQL_SOCKET}
 EOF
     chmod 0600 "$TXSQL_CREDENTIALS"
     rm -f /tmp/txsql-init-temp-pw
@@ -689,7 +669,6 @@ main() {
     echo "  Config:   ${TXSQL_CONFIG}"
     echo ""
     echo "  Connect:  mysql -u root -S ${TXSQL_SOCKET}"
-    echo "  Password: cat ${TXSQL_CREDENTIALS}"
     echo "  Status:   systemctl status txsql"
     echo ""
     exit 0
